@@ -17,6 +17,7 @@ from base64 import b64encode
 import io
 import urllib
 
+import re
 
 ## 폰트 경로 및 파일 확인
 # fm.fontManager.ttflist
@@ -59,9 +60,34 @@ def flatten(I):
             flatList.append(elem)
     return flatList
 
-def generate_wordCloud(text, font_path):
+def clean_text(text, remove_stopwords = False):
+    '''Remove unwanted characters, stopwords, and format the text to create fewer nulls word embeddings'''
+    
+    # # Convert words to lower case
+    # text = text.lower()
+    
+    # # Replace contractions with their longer forms 
+    # if True:
+    #     text = text.split()
+    #     new_text = []
+    #     for word in text:
+    #         new_text.append(word)
+    #     text = " ".join(new_text)
+    
+    # Format words and remove unwanted characters
+    text = re.sub(r'https?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)
+    text = re.sub(r'\<a href', ' ', text)
+    text = re.sub(r'&amp;', '', text) 
+    text = re.sub(r'[_"\-;%()|+&=*%.,!?:#$@\[\]/’·…]', ' ', text)
+    text = re.sub(r'<br />', ' ', text)
+    text = re.sub(r'\'', ' ', text)
+    text = re.sub(r'［[a-zA-Z가-힣]*］', ' ', text)
+    return text
+
+def generate_wordCloud(text, font_path, extractNum = 15):
     hannanum = Hannanum()
-    words = hannanum.nouns(text)
+    cleanText = clean_text(text)
+    words = hannanum.nouns(cleanText)
     word_list = flatten(words)
     word_list = pd.Series([x for x in word_list if len(x)>1])
     # print( word_list.value_counts().head(20) )
@@ -83,7 +109,8 @@ def generate_wordCloud(text, font_path):
     buf.seek(0)
     string = b64encode(buf.read())
     uri = 'data:image/png;base64,' + urllib.parse.quote(string)
-    return uri
+    count = count.most_common(extractNum)
+    return uri, count
 
     # plt.show()
 

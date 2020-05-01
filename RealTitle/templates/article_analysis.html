@@ -22,11 +22,35 @@
             <div class="col-lg-8 posts-list">
                 <div class="single-post">
                     <div class="blog_details">
-                        <h2>{{ post.article_title }}</h2>
+                        <!-- <h2>{{ post.article_title }}</h2>
                         <p class="excert">
                             {{ post.article_content }}
-                        </p>
+                        </p> -->
+                        <img id="wordCloud" src="{{wordcloud}}" alt="" style="width:600px;">
+                        
+                                                    <div>
+                                                        <table id="wordcount" class="table table-bordered text-center">
+                                                            <thead class="text-center">
+                                                                <tr>
+                                                                    <th width=10%>구분</th>
+                                                                    <th width=80%>단어</th>
+                                                                    <th width=10%>빈도</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for value in count %}
+                                                                <tr>
+                                                                    <td>{{forloop.counter}}</td>
+                                                                    <td>{{value.0}}</td>
+                                                                    <td>{{value.1}}</td>
+                                                                </tr>    
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
                     </div>
+                    <!-- <button id="btn" >table뿌리기</button> -->
                 </div>
             </div>
         </div>

@@ -1,24 +1,30 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.db.models import Q
+from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
+from django.template.loader import render_to_string
 import json
+
+from .models import Article
 
 from test.JH import get_article, pagination
 from test.DH import wordcloud01
+
 
 # Create your views here.
 def index(request):
     if request.method == 'GET':
         file_name = 'total_article_ver1_20200427'
         
-        get_article.insertArticle(file_name)
+        # get_article.insertArticle(file_name)
 
-        # media_list = get_article.getMediaList()
-        # category_list = get_article.getCategoryList()
+        media_list = get_article.getMediaList()
+        category_list = get_article.getCategoryList()
 
-        return render(request, 'index.html')
-        # return render(request, 'index.html', {'media_list': media_list, 'category_list': category_list})
+        # return render(request, 'index.html')
+        return render(request, 'index.html', {'media_list': media_list, 'category_list': category_list})
 
 @csrf_exempt
 def article_list(request):
@@ -85,9 +91,24 @@ def article_list(request):
                                         'keyword_list': keyword_list, 
                                         'sort_method': sort_method}), 'application/json')
 
+@csrf_exempt
 def article_analysis(request):
     if request.method == 'GET':
-        return render(request, 'article_analysis.html')
+        ### 넘어온 id를 받아서 사용.
+        art_id = request.GET.get('article_id','') # print(" article_id >",art_id)
+        
+        ## raw 쿼리도 가능.
+        # theArticle = article.objects.raw('select * from article_article where article_id = %s', [art_id])
+        theArticle = Article.objects.filter(article_id = art_id)
+
+        # print(dir(theArticle))
+        # print(theArticle[0].article_content)
+        content = theArticle[0].article_content
+        print(content)
+        wc, count = wordcloud01.generate_wordCloud(content, wordcloud01.setFontPath())
+        print("count >",count)
+        return render(request, 'article_analysis.html', { "wordcloud":wc,"count":count })
+    
 
 
 @csrf_exempt
@@ -98,5 +119,32 @@ def aritcle_keyword_visualization(request): # 키워드 시각화 페이지
         # print('POST key 값 >', request.POST)
         contents = request.POST['article_content']
         # print('받은 텍스트 >', contents)
-        uri = wordcloud01.generate_wordCloud( contents, wordcloud01.setFontPath() )
-        return HttpResponse(json.dumps({"wordcloudURI":uri}), "application/json")
+        uri, count = wordcloud01.generate_wordCloud( contents, wordcloud01.setFontPath() )
+        stringg = 'ddd'
+        return HttpResponse(json.dumps({"wordcloudURI":uri, "wordCount":count, "text": stringg }), "application/json")
+
+
+##### render_to_string을 이용해서 맹글어서 보내기. ### test.html과 article_keyword_table_contents.html 필요
+# @csrf_exempt
+# def renderToStringTest(request):
+#     if request.method == 'GET':
+#         return render(request, 'test.html')
+#     elif request.is_ajax():
+#         ### querry = r""" select * from article_article """
+#         ### test01 = article.objects.raw(querry)
+#         ### print(test01[0])
+#         ### print(dir(article.objects.all()[0]))
+#         ### print(article.objects.all()[0])
+#         ### querry = r""" select * from article_article where article_category=%s """
+#         ### test = article.objects.raw(querry,['사회'] )
+#         ### print(test[0])
+#         ### dishes = json.dumps([{"article_title":"기사제목1", "article_content":"내용1"},{"article_title":"기사제목2", "article_content":"내용2"}], ensure_ascii=False, )
+#         ### dishes = [{"article_title":"기사제목1", "article_content":"내용1"},{"article_title":"기사제목2", "article_content":"내용2"}]
+#         ### dishes = article.objects.all().values()[0];dishes = [dishes]
+#         dishes = article.objects.all().values()[:10]
+#         print(dishes, type(dishes))
+#         ### print(dishes['word'])
+#         html = render_to_string('article_keyword_table_contents.html', {'dishes': dishes})
+#         ### html = None
+#         return HttpResponse(html)
+#         pass

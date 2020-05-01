@@ -19,15 +19,33 @@
 <section class="blog_area single-post-area section-padding">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 posts-list">
+            <div class="col-lg-10 posts-list">
                 <div class="single-post">
                     <div class="blog_details">
                         <h4><strong>기사 내용</strong></h4>
                         <!-- <p class="excert"> -->
                         <textarea id="input-data", name="article_content"  autofocus=True, rows=10, placeholder='기사 내용을 입력해주세요.', style="margin: 0px 1px 0px 0px; width:100%; height:437px; font-size: 14px;"></textarea>
-                        <span id="checkTextArea"></span>
-                        <input class="send_text_btn" type="button" value="시작" />
-                        <img id="wordCloud" src="" alt="해당 숙소 명사" style="width:600px;">
+                        <div class="row justify-content-between">
+                            <input class="send_text_btn col-sm-2 btn btn-primary" type="button" value="시작", style="margin: 0px 15px 10px 15px;"; />
+                            <span id="checkTextArea", class="col-sm-2 text-right" style="padding: 0px 10px 0px 5px;">0 / 2000</span>
+                        </div>
+                        <div class="raw">
+                            <div>
+                                <table id="wordcount" class="table table-bordered">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th width=10%>구분</th>
+                                            <th width=80%>단어</th>
+                                            <th width=10%>빈도</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                            <img id="wordCloud" src="" alt="" style="width:600px;">
+                        </div>
                         <!-- </p> -->
                     </div>
                 </div>
@@ -45,6 +63,7 @@
     */
     function pubByteCheckTextarea(oid,tid){
         $(oid).on("keyup",function(){
+            var limitLength = 2000
             var byteTxt = "";
             var byte = function(str){
                 var byteNum=0;
@@ -56,12 +75,12 @@
                 };
                 return Math.round( byteNum/2 );
             };
-            if(byte($(this).val())>2000){
+            if(byte($(this).val())>limitLength){
                 alert("2000자 이상 입력할수 없습니다.");
                 $(this).val("");
                 $(this).val(byteTxt);
             }else{
-                $(tid).html( byte($(this).val()) )
+                $(tid).html( byte($(this).val()) + " / " + limitLength )
             }
         });
     };
@@ -78,14 +97,27 @@
                 ,dataType:'json'
                 ,data: textData.serialize()
                 ,success:function(result){
-                    alert(result['wordcloudURI'])
+                    $("#wordcount tbody").empty();
+                    // alert(result['wordCount'][0])
+                    $.each(result['wordCount'], function( index, counter ){
+                        // console.log(this);
+                        var dicts = counter
+                        // console.log(typeof(counter), counter)
+                        var word = dicts[0]
+                        var count = dicts[1]
+                        $("#wordcount tbody").append(
+                            "<tr><td>" + (index + 1) + "</td><td>" + word + "</td><td>" + count + "</td></tr>"
+                        )
+                    })
                     $('#wordCloud').attr("src", result['wordcloudURI']);
                 },
                 error:function(result){
-                    alert('전송에 실패')
+                    alert('')
                 }
             });
         });
     });
+
+    
 </script>
 {% endblock %}

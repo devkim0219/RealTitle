@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+TEST_RENDER_TOSTRING
+{% endblock %}
+
+{% block content %}
+<div class="bradcam_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text text-center">
+                    <h3># TEST_RENDER_TOSTRING</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="blog_area single-post-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 posts-list">
+                <div class="single-post">
+                    <div class="blog_details">
+                        <!-- <h2>{{ post.article_title }}</h2>
+                        <p class="excert">
+                            {{ post.article_content }}
+                        </p> -->
+                     
+                    </div>
+                    <button id="btn" >table뿌리기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block script %}
+<script>
+
+
+    $('#btn').click(function(e){
+      e.preventDefault();
+      $.ajax({
+        url:'/renderToStringTest/'
+        ,type:'post'
+        ,success:function(result){
+            alert(result)
+            $('.blog_details').html(result)
+        },
+        error:function(result){
+            alert("실패")
+        }
+      });
+    });
+</script>
+{% endblock %}
