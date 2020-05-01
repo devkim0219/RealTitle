@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}
+Real Title
+{% endblock %}
+
+{% block content %}
+
+<!-- 검색 -->
+<div class="bradcam_area slider_bg_1">
+    <div class="container justify-content-center d-flex">
+        <div class="row">
+            <div class="col-xl-12">                            
+                <!-- <div class="col-lg-8"> -->
+                    <div class="blog_right_sidebar">
+                        <p class="newsletter_text">Real Title은 신뢰있는 언론 환경을 조성하는 데 앞장서겠습니다!</p>
+                        <aside class="single_sidebar_widget search_widget">
+                            <form action="/article_list" method="GET">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" name="search_keyword" placeholder='검색할 내용을 입력하세요.'
+                                            onfocus="this.placeholder = ''" onblur="this.placeholder = '검색할 내용을 입력하세요.'">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="submit"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">검색</button>
+                            </form>
+                        </aside>
+                    </div>
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<!-- 언론사 별 기사 리스트 -->
+<div class="service_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="section_title mb-50 text-center">
+                    <h4>
+                        # 언론사 별 목록 -> 언론 청정도(정확도) 순으로 정렬, 상위 5개
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="service_active owl-carousel">
+                    <!-- 이하 반복문 처리 -->
+                    {% for media in media_list %}
+                    <div class="single_service">
+                        <div class="service_info">
+                            <h3><img src="/static/img/media/{{ media.article_media }}.png" style="width: 200px; margin-left: 60px;"></h3>
+                            <br>
+                            <p style="margin-left: 30px;">{{media.article_media}}의 신뢰 청정도는 ...%입니다.</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<!-- 카테고리 별 기사 리스트 -->
+<div class="service_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="section_title mb-50 text-center">
+                    <h4>
+                        # 카테고리 별 목록(키워드 포함)
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="service_active owl-carousel">
+                    <!-- 이하 반복문 처리 -->
+                    {% for category in category_list %}
+                    <div class="single_service">
+                        <div class="service_info">
+                            <div style="margin-left: 40px;">
+                                <h3><a href="/article_list?category={{category.article_category}}"># {{category.article_category}}</a></h3>
+                                <p>{{category.article_category}}의 키워드는 ...입니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

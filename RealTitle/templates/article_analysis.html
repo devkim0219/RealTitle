@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+기사 분석
+{% endblock %}
+
+{% block content %}
+<div class="bradcam_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text text-center">
+                    <h3># 기사 분석</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="blog_area single-post-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 posts-list">
+                <div class="single-post">
+                    <div class="blog_details">
+                        <h2>{{ post.article_title }}</h2>
+                        <p class="excert">
+                            {{ post.article_content }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
