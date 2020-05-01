@@ -1,7 +1,9 @@
+from sqlalchemy import create_engine
 import cx_Oracle
 import pandas as pd
 
-conn = cx_Oracle.connect("team/1234@192.168.0.52:32764/xe")
+conn = create_engine('oracle://team/1234@192.168.0.52:32764/xe')
+# conn = cx_Oracle.connect("team/1234@192.168.0.52:32764/xe")
 
 df = pd.read_sql('select article_id from article_article group by article_id', conn)
 
