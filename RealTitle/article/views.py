@@ -9,8 +9,8 @@ import json
 
 from .models import Article
 
-from test.JH import get_article, pagination
-from test.DH import wordcloud01
+from utils.oracleDB import get_article, pagination
+from utils.visualize import wordcloud01
 
 
 # Create your views here.
