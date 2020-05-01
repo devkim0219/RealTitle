@@ -78,7 +78,7 @@ def clean_text(text, remove_stopwords = False):
     text = re.sub(r'https?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)
     text = re.sub(r'\<a href', ' ', text)
     text = re.sub(r'&amp;', '', text) 
-    text = re.sub(r'[_"\-;%()|+&=*%.,!?:#$@\[\]/’·…]', ' ', text)
+    text = re.sub(r'[_"\-;%()|+&=*%.,!?:#$@\[\]/’·…【】]', ' ', text)
     text = re.sub(r'<br />', ' ', text)
     text = re.sub(r'\'', ' ', text)
     text = re.sub(r'［[a-zA-Z가-힣]*］', ' ', text)
@@ -113,6 +113,14 @@ def generate_wordCloud(text, font_path, extractNum = 15):
     return uri, count
 
     # plt.show()
+def generate_barchart(counter):
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    string = b64encode(buf.read())
+    uri = 'data:image/png;base64,' + urllib.parse.quote(string)
+    return uri
+    pass
 
 if __name__ == "__main__":
     setFont( setFontPath() )
