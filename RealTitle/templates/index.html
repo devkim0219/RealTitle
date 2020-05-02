@@ -7,7 +7,7 @@ Real Title
 {% block content %}
 
 <!-- 검색 -->
-<div class="bradcam_area slider_bg_1">
+<div id="bradcam_area" class="bradcam_area slider_bg_1">
     <div class="container justify-content-center d-flex">
         <div class="row">
             <div class="col-xl-12">                            
@@ -18,14 +18,14 @@ Real Title
                             <form action="/article_list" method="GET">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" name="search_keyword" placeholder='검색할 내용을 입력하세요.'
+                                        <input type="text" id="myform-control" class="form-control" name="search_keyword" placeholder='검색할 내용을 입력하세요.'
                                             onfocus="this.placeholder = ''" onblur="this.placeholder = '검색할 내용을 입력하세요.'">
                                         <div class="input-group-append">
-                                            <button class="btn" type="submit"><i class="ti-search"></i></button>
+                                            <button id ="mybtn" class="btn" type="submit"><i class="ti-search"></i></button>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">검색</button>
+                                <!--button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">검색</button-->
                             </form>
                         </aside>
                     </div>
@@ -37,7 +37,7 @@ Real Title
 <br>
 
 <!-- 언론사 별 기사 리스트 -->
-<div class="service_area">
+<div class="service_area myservice_area">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -69,7 +69,7 @@ Real Title
 <br>
 
 <!-- 카테고리 별 기사 리스트 -->
-<div class="service_area">
+<div class="service_area myservice_area">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">

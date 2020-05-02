@@ -84,7 +84,7 @@ DATABASES = {
 	# oracle설정
         'ENGINE': 'django.db.backends.oracle',
         'NAME': 'xe',  # SID
-        'USER': 'team',
+        'USER': 'test',
         'PASSWORD': '1234',
         'HOST': '192.168.0.52',
         'PORT': '32764'

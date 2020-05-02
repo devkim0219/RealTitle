@@ -19,7 +19,7 @@
 <section class="blog_area single-post-area section-padding">
     <div class="container">
         <div class="row">
-            <div class="col-lg-10 posts-list">
+            <div class="col-lg-12 posts-list">
                 <div class="single-post">
                     <div class="blog_details">
                         <h4><strong>기사 내용</strong></h4>
@@ -29,14 +29,14 @@
                             <input class="send_text_btn col-sm-2 btn btn-primary" type="button" value="시작", style="margin: 0px 15px 10px 15px;"; />
                             <span id="checkTextArea", class="col-sm-2 text-right" style="padding: 0px 10px 0px 5px;">0 / 2000</span>
                         </div>
-                        <div class="raw">
-                            <div>
+                        <div class="row">
+                            <div class="col-lg-6">
                                 <table id="wordcount" class="table table-bordered">
                                     <thead class="text-center">
                                         <tr>
-                                            <th width=10%>구분</th>
-                                            <th width=80%>단어</th>
-                                            <th width=10%>빈도</th>
+                                            <th width=20%>구분</th>
+                                            <th width=60%>단어</th>
+                                            <th width=20%>빈도</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -44,7 +44,27 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <img id="wordCloud" src="" alt="" style="width:600px;">
+
+                            <div class="card text-center col-lg-6">
+                                <div class="card-header">
+                                    <nav>
+                                        <div class="nav nav-tabs card-header-tabs"  id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active" id="nav-wordcloud-tab" data-toggle="tab" href="#nav-wordcloud" role="tab" aria-controls="nav-wordcloud" aria-selected="true">WordCloud</a>
+                                            <a class="nav-item nav-link" id="nav-bar-tab" data-toggle="tab" href="#nav-bar" role="tab" aria-controls="nav-bar" aria-selected="false">BarChart</a>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div class="card-body tab-content" id="nav-tabContent"><!--  https://getbootstrap.com/docs/4.0/components/navs/ -->
+                                  <!-- <h5 class="card-title">Special title treatment</h5> -->
+                                  <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+                                  <div class="tab-pane fade show active" id="nav-wordcloud" role="tabpanel" aria-labelledby="nav-wordcloud-tab">
+                                    <img id="wordcloud" src="" alt="" style="width:500px;">
+                                  </div>
+                                  <div class="tab-pane fade" id="nav-bar" role="tabpanel" aria-labelledby="nav-bar-tab">
+                                    <img id="barchart" src="" alt="" style="width:500px;">
+                                  </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- </p> -->
                     </div>
@@ -109,7 +129,7 @@
                             "<tr><td>" + (index + 1) + "</td><td>" + word + "</td><td>" + count + "</td></tr>"
                         )
                     })
-                    $('#wordCloud').attr("src", result['wordcloudURI']);
+                    $('#wordcloud').attr("src", result['wordcloudURI']);
                 },
                 error:function(result){
                     alert('')
