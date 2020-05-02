@@ -13,6 +13,9 @@ Real Title
             <div class="col-xl-12">                            
                 <!-- <div class="col-lg-8"> -->
                     <div class="blog_right_sidebar">
+                    <style>
+                        @import url('https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap');
+                    </style>
                         <p class="newsletter_text">Real Title은 신뢰있는 언론 환경을 조성하는 데 앞장서겠습니다!</p>
                         <aside class="single_sidebar_widget search_widget">
                             <form action="/article_list" method="GET">
@@ -55,7 +58,7 @@ Real Title
                     {% for media in media_list %}
                     <div class="single_service">
                         <div class="service_info">
-                            <h3><img src="/static/img/media/{{ media.article_media }}.png" style="width: 200px; margin-left: 60px;"></h3>
+                            <h3><img src="/static/img/media2/{{ media.article_media }}.png" style="width: 200px; margin-left: 60px;"></h3>
                             <br>
                             <p style="margin-left: 30px;">{{media.article_media}}의 신뢰 청정도는 ...%입니다.</p>
                         </div>
