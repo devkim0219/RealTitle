@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.db import connection
 from article.models import Article
 import pandas as pd
 
@@ -54,15 +55,30 @@ def searchArticle(search_keyword, media, category, sort_method='desc'):
     return article_list
 
 def insertArticle(file_name):
-    f = pd.read_csv('data/' + file_name + '.csv')
+    df = pd.read_sql('select article_id from article_article group by article_id', connection)
 
-    df = f[f [f['article_category'] == '사회' ].index[0]:]
+    df.columns = ['article_id']
+    df['check'] = 1
 
-    print(df.head())
-    print(df.columns)
-    print(df.shape)
+    df2 = pd.read_csv('data/' + file_name + '.csv')
 
-    df1 = df[['article_id', 'article_url', 'article_category', 'article_media', 'article_date', 'article_title', 'article_content']]
+    df_merge = pd.merge(df, df2, how='outer')
+
+    df_result = df_merge[df_merge['check'].isna()]
+    df_result.drop('check', axis=1, inplace=True)
+
+    print(df_result.head())
+    print(df_result.columns)
+    print(df_result.shape)
+
+    # f = pd.read_csv('data/' + file_name + '.csv')
+    # df = f[f [f['article_category'] == '사회' ].index[0]:]
+
+    # print(df.head())
+    # print(df.columns)
+    # print(df.shape)
+
+    df1 = df_result[['article_id', 'article_url', 'article_category', 'article_media', 'article_date', 'article_title', 'article_content']]
     rows = [tuple(x) for x in df1.to_records(index=False)]
 
     for line in rows:

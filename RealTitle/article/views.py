@@ -18,13 +18,13 @@ def index(request):
     if request.method == 'GET':
         file_name = 'total_article_ver1_20200427'
         
-        # get_article.insertArticle(file_name)
+        get_article.insertArticle(file_name)
 
-        media_list = get_article.getMediaList()
-        category_list = get_article.getCategoryList()
+        # media_list = get_article.getMediaList()
+        # category_list = get_article.getCategoryList()
 
-        # return render(request, 'index.html')
-        return render(request, 'index.html', {'media_list': media_list, 'category_list': category_list})
+        return render(request, 'index.html')
+        # return render(request, 'index.html', {'media_list': media_list, 'category_list': category_list})
 
 @csrf_exempt
 def article_list(request):
