@@ -27,4 +27,5 @@ urlpatterns = [
     path('article_list/', article.views.article_list, name='article_list'),
     path('article_analysis/', article.views.article_analysis, name='article_analysis'),
     path('aritcle_keyword_visualization/', article.views.aritcle_keyword_visualization, name='aritcle_keyword_visualization'),
+    path('article_chart/', article.views.article_chart, name='article_chart'),
 ]

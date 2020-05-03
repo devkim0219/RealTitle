@@ -62,7 +62,7 @@
                                 <h3>{{ tmp.article_title }}</h3>
                             </a>
                             <p>{{ tmp.article_title }}</p>
-                            <p style="margin-bottom: -25px;"><span style="font-size: 14px; font-weight: bold;"><a href="{{ tmp.article_url }}" target="_blank">{{ tmp.article_media }}</a></span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 12px;">{{ tmp.article_category }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ tmp.article_date }}</span></p>
+                            <p style="margin-bottom: -25px;"><span style="font-size: 14px; font-weight: bold;"><a {% if tmp.media_url != '' %} href="{{ tmp.media_url }}"  target="_blank" {% else %} href="#" {% endif %}>{{ tmp.article_media }}</a></span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 12px;">{{ tmp.article_category }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ tmp.article_date }}</span></p>
                             <ul class="blog-info-link justify-content-end d-flex">
                                 <li><a href="{{ tmp.article_url }}" target="_blank"><i class="fa fa-file-text-o"></i>원문 보기</a></li>
                                 <li><a href="/article_analysis?article_id={{ tmp.article_id }}"><i class="fa fa-bar-chart"></i>분석 보기</a></li>

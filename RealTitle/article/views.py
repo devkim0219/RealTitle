@@ -43,20 +43,25 @@ def article_list(request):
         page = request.GET.get('page', 1)
 
         article_list = get_data.searchArticle(search_keyword=search_keyword, media=media, category=category)
+
+        print('### article_list ->', article_list)
+        print('### query ->', str(article_list.query))
+        print('### values ->', article_list.values())
+
         posts, total_count, p_range = pagination.pagination(data=article_list, page=page)
 
         media_list = get_data.getMediaList()
         category_list = get_data.getCategoryList()
         keyword_list = ['딥러닝맨', 'Real Title', '코로나', '날씨']
 
-        return render(request, 'article_list.html', {'search_keyword': search_keyword, 
-                                                    'media': media, 
-                                                    'category': category, 
-                                                    'posts': posts, 
-                                                    'total_count': total_count, 
-                                                    'p_range': p_range, 
-                                                    'media_list': media_list, 
-                                                    'category_list': category_list, 
+        return render(request, 'article_list.html', {'search_keyword': search_keyword,
+                                                    'media': media,
+                                                    'category': category,
+                                                    'posts': posts,
+                                                    'total_count': total_count,
+                                                    'p_range': p_range,
+                                                    'media_list': media_list,
+                                                    'category_list': category_list,
                                                     'keyword_list': keyword_list})
     
     elif request.method == 'POST':
@@ -148,3 +153,7 @@ def aritcle_keyword_visualization(request): # 키워드 시각화 페이지
 #         ### html = None
 #         return HttpResponse(html)
 #         pass
+
+@csrf_exempt
+def article_chart(request):
+    return render(request, 'article_chart.html')
