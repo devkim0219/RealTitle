@@ -1,4 +1,5 @@
 # import seaborn as sns; sns.set(style='darkgrid', font='malgun', font_scale=1.5)
+import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 
@@ -7,6 +8,8 @@ import cx_Oracle as oci
 
 #!conda install -c conda-forge wordcloud
 from wordcloud import WordCloud 
+import numpy as np
+from PIL import Image
 from collections import Counter
 import pandas as pd
 
@@ -78,7 +81,7 @@ def clean_text(text, remove_stopwords = False):
     text = re.sub(r'https?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)
     text = re.sub(r'\<a href', ' ', text)
     text = re.sub(r'&amp;', '', text) 
-    text = re.sub(r'[_"\-;%()|+&=*%.,!?:#$@\[\]/’·…【】]', ' ', text)
+    text = re.sub(r'[_"\-;%()|+&=*%.,!?:#$@\[\]/’·…【】△‘“”]', ' ', text)
     text = re.sub(r'<br />', ' ', text)
     text = re.sub(r'\'', ' ', text)
     text = re.sub(r'［[a-zA-Z가-힣]*］', ' ', text)
@@ -86,6 +89,11 @@ def clean_text(text, remove_stopwords = False):
 
 def generate_wordCloud(text, font_path, extractNum = 15):
     hannanum = Hannanum()
+    setFont(font_path)
+
+    ## mask image
+    image_mask = np.array(Image.open("./utils/visualize/만세_보노.jpg"))
+
     cleanText = clean_text(text)
     words = hannanum.nouns(cleanText)
     word_list = flatten(words)
@@ -95,6 +103,7 @@ def generate_wordCloud(text, font_path, extractNum = 15):
     wordcloud = WordCloud(font_path=font_path
                         , stopwords=stopwordList
                         , width=800, height=800
+                        , mask=image_mask
                         , background_color='white')
 
     count = Counter(word_list)
@@ -108,19 +117,32 @@ def generate_wordCloud(text, font_path, extractNum = 15):
     plt.savefig(buf, format='png')
     buf.seek(0)
     string = b64encode(buf.read())
-    uri = 'data:image/png;base64,' + urllib.parse.quote(string)
+    wcURI = 'data:image/png;base64,' + urllib.parse.quote(string)
     count = count.most_common(extractNum)
-    return uri, count
+    barURI = generate_barchart(count)
+    return wcURI, barURI, count
 
     # plt.show()
 def generate_barchart(counter):
+    # print(counter[0][0])
+    fig = plt.figure(figsize=(10,10))
+    df = pd.DataFrame(counter, columns=['word','wordcount'])
+    ### seaborn
+    sns.barplot( x="word"
+                ,y = "wordcount"
+                # ,palette="ch:.25" ## Red  계열
+                ,palette="Blues_d"  ## Blue 계열
+                ,data = df
+             )
+    plt.xticks(rotation=30)
+
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)
     string = b64encode(buf.read())
     uri = 'data:image/png;base64,' + urllib.parse.quote(string)
+    # uri = None
     return uri
-    pass
 
 if __name__ == "__main__":
     setFont( setFontPath() )

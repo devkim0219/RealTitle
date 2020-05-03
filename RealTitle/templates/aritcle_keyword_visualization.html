@@ -30,7 +30,7 @@
                             <span id="checkTextArea", class="col-sm-2 text-right" style="padding: 0px 10px 0px 5px;">0 / 2000</span>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <table id="wordcount" class="table table-bordered">
                                     <thead class="text-center">
                                         <tr>
@@ -45,7 +45,7 @@
                                 </table>
                             </div>
 
-                            <div class="card text-center col-lg-6">
+                            <div class="card text-center col-lg-8">
                                 <div class="card-header">
                                     <nav>
                                         <div class="nav nav-tabs card-header-tabs"  id="nav-tab" role="tablist">
@@ -58,10 +58,10 @@
                                   <!-- <h5 class="card-title">Special title treatment</h5> -->
                                   <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
                                   <div class="tab-pane fade show active" id="nav-wordcloud" role="tabpanel" aria-labelledby="nav-wordcloud-tab">
-                                    <img id="wordcloud" src="" alt="" style="width:500px;">
+                                    <img id="wordcloud" src="" alt="" style="width:100%;">
                                   </div>
                                   <div class="tab-pane fade" id="nav-bar" role="tabpanel" aria-labelledby="nav-bar-tab">
-                                    <img id="barchart" src="" alt="" style="width:500px;">
+                                    <img id="barchart" src="" alt="" style="width:100%;">
                                   </div>
                                 </div>
                             </div>
@@ -130,6 +130,7 @@
                         )
                     })
                     $('#wordcloud').attr("src", result['wordcloudURI']);
+                    $('#barchart').attr("src", result['barURI']);
                 },
                 error:function(result){
                     alert('')

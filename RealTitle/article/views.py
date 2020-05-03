@@ -105,9 +105,9 @@ def article_analysis(request):
         # print(theArticle[0].article_content)
         content = theArticle[0].article_content
         print(content)
-        wc, count = wordcloud01.generate_wordCloud(content, wordcloud01.setFontPath())
+        wc, bar, count = wordcloud01.generate_wordCloud(content, wordcloud01.setFontPath())
         print("count >",count)
-        return render(request, 'article_analysis.html', { "wordcloud":wc,"count":count })
+        return render(request, 'article_analysis.html', { "wordcloud":wc, "barchart":bar,"count":count })
     
 
 
@@ -119,9 +119,8 @@ def aritcle_keyword_visualization(request): # 키워드 시각화 페이지
         # print('POST key 값 >', request.POST)
         contents = request.POST['article_content']
         # print('받은 텍스트 >', contents)
-        uri, count = wordcloud01.generate_wordCloud( contents, wordcloud01.setFontPath() )
-        stringg = 'ddd'
-        return HttpResponse(json.dumps({"wordcloudURI":uri, "wordCount":count, "text": stringg }), "application/json")
+        wcURI, barURI, count = wordcloud01.generate_wordCloud( contents, wordcloud01.setFontPath() )
+        return HttpResponse(json.dumps({"wordcloudURI":wcURI, "barURI":barURI, "wordCount":count}), "application/json")
 
 
 ##### render_to_string을 이용해서 맹글어서 보내기. ### test.html과 article_keyword_table_contents.html 필요

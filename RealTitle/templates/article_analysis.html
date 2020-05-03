@@ -19,36 +19,58 @@
 <section class="blog_area single-post-area section-padding">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 posts-list">
+            <div class="col-lg-12 posts-list">
                 <div class="single-post">
                     <div class="blog_details">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <table id="wordcount" class="table table-bordered">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th width=20%>구분</th>
+                                            <th width=60%>단어</th>
+                                            <th width=20%>빈도</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for value in count %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{value.0}}</td>
+                                            <td>{{value.1}}</td>
+                                        </tr>    
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="card text-center col-lg-8">
+                                <div class="card-header">
+                                    <nav>
+                                        <div class="nav nav-tabs card-header-tabs"  id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active" id="nav-wordcloud-tab" data-toggle="tab" href="#nav-wordcloud" role="tab" aria-controls="nav-wordcloud" aria-selected="true">WordCloud</a>
+                                            <a class="nav-item nav-link" id="nav-bar-tab" data-toggle="tab" href="#nav-bar" role="tab" aria-controls="nav-bar" aria-selected="false">BarChart</a>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div class="card-body tab-content" id="nav-tabContent"><!--  https://getbootstrap.com/docs/4.0/components/navs/ -->
+                                  <!-- <h5 class="card-title">Special title treatment</h5> -->
+                                  <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+                                  <div class="tab-pane fade show active" id="nav-wordcloud" role="tabpanel" aria-labelledby="nav-wordcloud-tab">
+                                    <img id="wordcloud" src="{{wordcloud}}" alt="" style="width:100%;">
+                                  </div>
+                                  <div class="tab-pane fade" id="nav-bar" role="tabpanel" aria-labelledby="nav-bar-tab">
+                                    <img id="barchart" src="{{barchart}}" alt="" style="width:100%;">
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <!-- <h2>{{ post.article_title }}</h2>
                         <p class="excert">
                             {{ post.article_content }}
                         </p> -->
-                        <img id="wordCloud" src="{{wordcloud}}" alt="" style="width:600px;">
-                        
-                                                    <div>
-                                                        <table id="wordcount" class="table table-bordered text-center">
-                                                            <thead class="text-center">
-                                                                <tr>
-                                                                    <th width=10%>구분</th>
-                                                                    <th width=80%>단어</th>
-                                                                    <th width=10%>빈도</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {% for value in count %}
-                                                                <tr>
-                                                                    <td>{{forloop.counter}}</td>
-                                                                    <td>{{value.0}}</td>
-                                                                    <td>{{value.1}}</td>
-                                                                </tr>    
-                                                                {% endfor %}
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-
                     </div>
                     <!-- <button id="btn" >table뿌리기</button> -->
                 </div>
