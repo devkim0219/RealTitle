@@ -9,7 +9,7 @@ import json
 
 from .models import Article
 
-from utils.oracleDB import get_article, pagination
+from utils.oracleDB import get_data, pagination
 from utils.visualize import wordcloud01
 
 
@@ -17,14 +17,22 @@ from utils.visualize import wordcloud01
 def index(request):
     if request.method == 'GET':
         file_name = 'total_article_ver1_20200427'
-        
-        get_article.insertArticle(file_name)
+    
+        # get_article.insertArticle(file_name)
 
-        # media_list = get_article.getMediaList()
-        # category_list = get_article.getCategoryList()
+        media_list = get_data.getMediaList()
+        category_list = get_data.getCategoryList()
 
-        return render(request, 'index.html')
-        # return render(request, 'index.html', {'media_list': media_list, 'category_list': category_list})
+        media_list_arr = []
+
+        for media in media_list:
+            media_list_arr.append(media['media_name'])
+
+        media_list_arr.remove('KBS 연예')
+        media_list_arr.remove('MBC연예')
+
+        # return render(request, 'index.html')
+        return render(request, 'index.html', {'media_list': media_list_arr, 'category_list': category_list})
 
 @csrf_exempt
 def article_list(request):
@@ -34,11 +42,11 @@ def article_list(request):
         category = request.GET.get('category', '')
         page = request.GET.get('page', 1)
 
-        article_list = get_article.searchArticle(search_keyword=search_keyword, media=media, category=category)
+        article_list = get_data.searchArticle(search_keyword=search_keyword, media=media, category=category)
         posts, total_count, p_range = pagination.pagination(data=article_list, page=page)
 
-        media_list = get_article.getMediaList()
-        category_list = get_article.getCategoryList()
+        media_list = get_data.getMediaList()
+        category_list = get_data.getCategoryList()
         keyword_list = ['딥러닝맨', 'Real Title', '코로나', '날씨']
 
         return render(request, 'article_list.html', {'search_keyword': search_keyword, 
@@ -61,23 +69,16 @@ def article_list(request):
         print(search_keyword, media, category, page, sort_method, type(sort_method))
 
         if sort_method == 'desc':
-            article_list = get_article.searchArticle(search_keyword=search_keyword, media=media, category=category)
+            article_list = get_data.searchArticle(search_keyword=search_keyword, media=media, category=category)
         
         elif sort_method == 'asc':
-            article_list = get_article.searchArticle(search_keyword=search_keyword, media=media, category=category, sort_method=sort_method)
+            article_list = get_data.searchArticle(search_keyword=search_keyword, media=media, category=category, sort_method=sort_method)
 
         posts, total_count, p_range = pagination.pagination(data=article_list, page=page)
 
-        # for post in posts:
-        #     print(post.article_title)
-        # print('*'*100)
-        # for post in reversed(posts):
-        #     print(post.article_title)
-        # print("post",posts.object_list.values())
-
-        media_list = get_article.getMediaList()
+        media_list = get_data.getMediaList()
         print("media_list",media_list)
-        category_list = get_article.getCategoryList()
+        category_list = get_data.getCategoryList()
         keyword_list = ['딥러닝맨', 'Real Title', '코로나', '날씨']
 
         return HttpResponse(json.dumps({'search_keyword': search_keyword, 

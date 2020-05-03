@@ -14,9 +14,9 @@
                 </style>
                 <div class="bradcam_text text-center">
                     {% if media != '' %}    
-                    <h3># {{ media }} 기사 리스트</h3>
+                    <h3>{{ media }} 기사 리스트</h3>
                     {% elif cagegory != '' %}
-                    <h3># {{ category }} 기사 리스트</h3>
+                    <h3>{{ category }} 기사 리스트</h3>
                     {% else %}
                     <h3># 전체 기사 리스트</h3>
                     {% endif %}
@@ -54,10 +54,6 @@
                         <input type="hidden" id="page" value="{{ page }}">
                         <input type="hidden" id="sort_method" value="asc">
                     </ul>
-                    
-                    <div id="result">
-                        <textarea></textarea>
-                    </div>
 
                     {% for tmp in posts %}
                     <article class="blog_item">
@@ -139,8 +135,8 @@
                             <!-- 이하 반복문 처리 -->
                             {% for tmp in media_list %}
                             <li>
-                                <a href="?media={{ tmp.article_media }}" class="d-flex">
-                                    <p>{{ tmp.article_media }}</p>
+                                <a href="?media={{ tmp.media_name }}" class="d-flex">
+                                    <p>{{ tmp.media_name }}</p>
                                 </a>
                             </li>
                             {% endfor %}
@@ -153,8 +149,8 @@
                             <!-- 이하 반복문 처리 -->
                             {% for tmp in category_list %}
                             <li>
-                                <a href="?category={{ tmp.article_category }}" class="d-flex">
-                                    <p>{{ tmp.article_category }}</p>
+                                <a href="?category={{ tmp.category_name }}" class="d-flex">
+                                    <p>{{ tmp.category_name }}</p>
                                 </a>
                             </li>
                             {% endfor %}

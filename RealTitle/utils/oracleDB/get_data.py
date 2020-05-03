@@ -1,20 +1,18 @@
 from django.db.models import Q
 from django.db import connection
-from article.models import Article
+from article.models import Article, Media, Category
 import pandas as pd
 
 def getMediaList():
     # 언론사 리스트
-    # media_list = Sample.objects.raw('SELECT ARTICLE_MEDIA FROM ARTICLE_ARTICLE GROUP BY ARTICLE_MEDIA')
-    media_list = Article.objects.values('article_media').order_by('article_media').distinct()
-
+    # media_list = Media.objects.raw('SELECT MEDIA_NAME FROM ARTICLE_MEDIA')
+    media_list = Media.objects.values('media_name')
     return media_list
 
 def getCategoryList():
     # 카테고리 리스트
-    # category_list = Sample.objects.raw('SELECT ARTICLE_CATEGORY FROM ARTICLE_ARTICLE GROUP BY ARTICLE_CATEGORY')
-    category_list = Article.objects.values('article_category').order_by('article_category').distinct()
-
+    # category_list = Category.objects.raw('SELECT CATEGORY_NAME FROM ARTICLE_CATEGORY')
+    category_list = Category.objects.values('category_name')
     return category_list
 
 def searchArticle(search_keyword, media, category, sort_method='desc'):
@@ -35,7 +33,7 @@ def searchArticle(search_keyword, media, category, sort_method='desc'):
 
         # 검색어만 있을 때
         else:
-            # article_list = Sample.objects.filter(Q(article_title__icontains=search_keyword) | Q(article_content__icontains=search_keyword)).order_by('-article_date')
+            # article_list = Article.objects.filter(Q(article_title__icontains=search_keyword) | Q(article_content__icontains=search_keyword)).order_by('-article_date')
             article_list = Article.objects.filter(article_title__icontains=search_keyword).order_by(order_by_val)
 
     else:
@@ -49,7 +47,7 @@ def searchArticle(search_keyword, media, category, sort_method='desc'):
 
         # 전체 리스트
         else:
-            # article_list = Sample.objects.raw('SELECT * FROM ARTICLE_ARTICLE ORDER BY ARTICLE_DATE DESC')
+            # article_list = Article.objects.raw('SELECT * FROM ARTICLE_ARTICLE ORDER BY ARTICLE_DATE DESC')
             article_list = Article.objects.all().order_by(order_by_val)
             
     return article_list

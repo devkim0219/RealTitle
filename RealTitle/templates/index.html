@@ -46,7 +46,7 @@ Real Title
             <div class="col-xl-12">
                 <div class="section_title mb-50 text-center">
                     <h4>
-                        # 언론사 별 목록 -> 언론 청정도(정확도) 순으로 정렬, 상위 5개
+                        # 언론사 별 기사 보기
                     </h4>
                 </div>
             </div>
@@ -58,9 +58,9 @@ Real Title
                     {% for media in media_list %}
                     <div class="single_service">
                         <div class="service_info">
-                            <h3><img src="/static/img/media2/{{ media.article_media }}.png" style="width: 200px; margin-left: 60px;"></h3>
+                            <h3><img src="/static/img/media2/{{ media }}.png" style="width: 200px; margin-left: 60px;"></h3>
                             <br>
-                            <p style="margin-left: 30px;">{{media.article_media}}의 신뢰 청정도는 ...%입니다.</p>
+                            <p style="margin-left: 30px;">{{ media }}의 신뢰 청정도는 ...%입니다.</p>
                         </div>
                     </div>
                     {% endfor %}
@@ -78,7 +78,7 @@ Real Title
             <div class="col-xl-12">
                 <div class="section_title mb-50 text-center">
                     <h4>
-                        # 카테고리 별 목록(키워드 포함)
+                        # 카테고리 별 기사 보기
                     </h4>
                 </div>
             </div>
@@ -91,8 +91,8 @@ Real Title
                     <div class="single_service">
                         <div class="service_info">
                             <div style="margin-left: 40px;">
-                                <h3><a href="/article_list?category={{category.article_category}}"># {{category.article_category}}</a></h3>
-                                <p>{{category.article_category}}의 키워드는 ...입니다.</p>
+                                <h3><a href="/article_list?category={{ category.category_name }}"># {{ category.category_name }}</a></h3>
+                                <p>{{ category.category_name }}의 키워드는 ...입니다.</p>
                             </div>
                         </div>
                     </div>

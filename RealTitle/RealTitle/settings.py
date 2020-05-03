@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    '192.168.0.32']
+    '192.168.0.32',
+    '192.168.0.52']
 
 
 # Application definition
@@ -84,7 +85,7 @@ DATABASES = {
 	# oracle설정
         'ENGINE': 'django.db.backends.oracle',
         'NAME': 'xe',  # SID
-        'USER': 'test',
+        'USER': 'team',
         'PASSWORD': '1234',
         'HOST': '192.168.0.52',
         'PORT': '32764'
