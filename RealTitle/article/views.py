@@ -76,11 +76,12 @@ def article_analysis(request):
 
         # print(dir(theArticle))
         # print(theArticle[0].article_content)
+        url = theArticle[0].article_url
         content = theArticle[0].article_content
         print(content)
         wc, bar, count = wordcloud01.generate_wordCloud(content, wordcloud01.setFontPath())
         print("count >",count)
-        return render(request, 'article_analysis.html', { "wordcloud":wc, "barchart":bar,"count":count })
+        return render(request, 'article_analysis.html', { "wordcloud":wc, "barchart":bar,"count":count, "article_url":url })
     
 
 
