@@ -129,30 +129,27 @@ def aritcle_keyword_visualization(request): # 키워드 시각화 페이지
         return HttpResponse(json.dumps({"wordcloudURI":wcURI, "barURI":barURI, "wordCount":count}), "application/json")
 
 
-##### render_to_string을 이용해서 맹글어서 보내기. ### test.html과 article_keyword_table_contents.html 필요
-# @csrf_exempt
-# def renderToStringTest(request):
-#     if request.method == 'GET':
-#         return render(request, 'test.html')
-#     elif request.is_ajax():
-#         ### querry = r""" select * from article_article """
-#         ### test01 = article.objects.raw(querry)
-#         ### print(test01[0])
-#         ### print(dir(article.objects.all()[0]))
-#         ### print(article.objects.all()[0])
-#         ### querry = r""" select * from article_article where article_category=%s """
-#         ### test = article.objects.raw(querry,['사회'] )
-#         ### print(test[0])
-#         ### dishes = json.dumps([{"article_title":"기사제목1", "article_content":"내용1"},{"article_title":"기사제목2", "article_content":"내용2"}], ensure_ascii=False, )
-#         ### dishes = [{"article_title":"기사제목1", "article_content":"내용1"},{"article_title":"기사제목2", "article_content":"내용2"}]
-#         ### dishes = article.objects.all().values()[0];dishes = [dishes]
-#         dishes = article.objects.all().values()[:10]
-#         print(dishes, type(dishes))
-#         ### print(dishes['word'])
-#         html = render_to_string('article_keyword_table_contents.html', {'dishes': dishes})
-#         ### html = None
-#         return HttpResponse(html)
-#         pass
+@csrf_exempt
+def test_sort(request):
+    ### 다른 테이블과 조인 같은 경우
+    # obj = Article.objects.extra( 
+    #     select={
+    #         'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name'
+    #     },
+    # )
+    # print(obj.values())
+
+    # return render(request, 'test_sort.html')
+    #### 게시글 정렬 테스트
+    articles_data = Article.objects.all()
+    ## queryset to json
+    # data = serializers.serialize("json",articles_data[:10].values())
+    ## queryset origin
+    sample_data = articles_data[:2]
+    data = serializers.serialize('json',sample_data)
+    # data = articles_data[:2].values()
+    return render(request, 'test_sort.html',{"data":data})
+
 
 @csrf_exempt
 def article_chart(request):
