@@ -188,53 +188,32 @@
 
 {% block script %}
 <script type="text/javascript">
-$(function() {
-    $('#sort_icon').click(function() {
-        search_keyword = $('#search_keyword').val()
-        media = $('#media').val()
-        category = $('#category').val()
-        sort_method = $('#sort_method').val()
+var queryset = JSON.parse('{{ data | escapejs }}'); 
+console.log(typeof(queryset), queryset)
+// // if asc = data / if desc => pop()
+// // first, asc
+var node = $('article .blog_details')
 
-        // alert('ajax 전송시작')
-        $.ajax({
-            type: 'POST',
-            url: "{% url 'article_list' %}",
-            data: {
-                'search_keyword': search_keyword,
-                'media': media,
-                'category': category,
-                'sort_method': sort_method
-                // 'csrfmiddlewaretoken': '{{ csrf_token }}'
-            },
-            dataType: 'json',
-            success: function(json) {
-                alert('ajax 통신성공')
-                sort_method = json.sort_method
-                
-                if(sort_method == 'asc') {
-                    $('#sort_method').val('desc')
-                    $('#sort_desc').attr('class', 'display-none')
-                    $('#sort_asc').removeAttr('class')
-                } else {
-                    $('#sort_method').val('asc')
-                    $('#sort_asc').attr('class', 'display-none')
-                    $('#sort_desc').removeAttr('class')
-                }
+$('#sort_icon').click(function() {
+    sort_method = $('#sort_method').val()
+    // alert(sort_method)
+    if (sort_method == 'desc'){
+        $.each(queryset.reverse(),function(index, item){
+            console.log(index, item)
+            console.log(item.fields.article_title)
+            var thisnode = node.eq(index)
+            thisnode.children("a").attr('href', item.fields.article_url)                         // 제목에 달린 url
+            thisnode.children(".d-inline-block").children('h3').html(item.fields.article_title )
+            thisnode.children("p").eq(0).html('ourtitle'+index)                         // 우리의 제목
+            thisnode.children("p").eq(1).find("a").attr('href')       // 언론사 url
+            thisnode.children("p").eq(1).find("a").html(item.fields.article_media)             // 언론사 이름
+            thisnode.find("p span").eq(1).html(item.fields.article_category)                       // 카테고리 및 날짜
 
-                $('#result').text(json.posts)
-            },
-            beforeSend:function(){
-                $('.wrap-loading').removeClass('display-none')
-            },
-            complete:function(){
-                $('.wrap-loading').addClass('display-none')
-            },
-            error: function(request, error) {
-                alert('전송 실패...')
-            }
+            console.log(thisnode.find("ul li a").eq(0).attr('href') )               // 원문보기 url 
+            console.log(thisnode.find("ul li a").eq(1).attr('href') )               // 분석보기 url
         })
-    })
-})
+    }
+});
 </script>
 
 <!-- <script type="module">
