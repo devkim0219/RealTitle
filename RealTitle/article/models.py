@@ -18,7 +18,7 @@ class Result(models.Model):
     objects = models.Manager()
     result_id = models.CharField(primary_key=True, max_length=20)
     result_newtitle = models.CharField(max_length=200)
-    result_acc = models.FloatField()
+    result_acc = models.FloatField(null=True)
 
     def __str__(self):
         return (self.result_id)
@@ -28,6 +28,7 @@ class Media(models.Model):
     media_id = models.AutoField(primary_key=True)
     media_name = models.CharField(max_length=50)
     media_url = models.CharField(max_length=100)
+    media_acc = models.FloatField(null=True)
 
     def __str__(self):
         return (self.media_name)
