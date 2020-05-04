@@ -44,10 +44,6 @@ def article_list(request):
 
         article_list = get_data.searchArticle(search_keyword=search_keyword, media=media, category=category)
 
-        print('### article_list ->', article_list)
-        print('### query ->', str(article_list.query))
-        print('### values ->', article_list.values())
-
         posts, total_count, p_range = pagination.pagination(data=article_list, page=page)
 
         media_list = get_data.getMediaList()
@@ -58,44 +54,38 @@ def article_list(request):
                                                     'media': media,
                                                     'category': category,
                                                     'posts': posts,
+                                                    'data': serializers.serialize('json', posts),
                                                     'total_count': total_count,
                                                     'p_range': p_range,
                                                     'media_list': media_list,
                                                     'category_list': category_list,
                                                     'keyword_list': keyword_list})
     
-    elif request.method == 'POST':
-        search_keyword = request.POST.get('search_keyword', '')
-        media = request.POST.get('media', '')
-        category = request.POST.get('category', '')
-        page = request.GET.get('page', 1)
-        sort_method = request.POST.get('sort_method', '')
+    # elif request.method == 'POST':
+    #     search_keyword = request.POST.get('search_keyword', '')
+    #     media = request.POST.get('media', '')
+    #     category = request.POST.get('category', '')
+    #     page = request.GET.get('page', 1)
+    #     # sort_method = request.POST.get('sort_method', '')
 
-        print(search_keyword, media, category, page, sort_method, type(sort_method))
+    #     article_list = get_data.searchArticle(search_keyword=search_keyword, media=media, category=category)
 
-        if sort_method == 'desc':
-            article_list = get_data.searchArticle(search_keyword=search_keyword, media=media, category=category)
-        
-        elif sort_method == 'asc':
-            article_list = get_data.searchArticle(search_keyword=search_keyword, media=media, category=category, sort_method=sort_method)
+    #     posts, total_count, p_range = pagination.pagination(data=article_list, page=page)
 
-        posts, total_count, p_range = pagination.pagination(data=article_list, page=page)
+    #     media_list = get_data.getMediaList()
+    #     print("media_list",media_list)
+    #     category_list = get_data.getCategoryList()
+    #     keyword_list = ['딥러닝맨', 'Real Title', '코로나', '날씨']
 
-        media_list = get_data.getMediaList()
-        print("media_list",media_list)
-        category_list = get_data.getCategoryList()
-        keyword_list = ['딥러닝맨', 'Real Title', '코로나', '날씨']
-
-        return HttpResponse(json.dumps({'search_keyword': search_keyword, 
-                                        'media': media, 
-                                        'category': category, 
-                                        'posts': serializers.serialize('json', posts), 
-                                        'total_count': total_count, 
-                                        'p_range': list(p_range), 
-                                        'media_list': list(media_list), 
-                                        'category_list': list(category_list), 
-                                        'keyword_list': keyword_list, 
-                                        'sort_method': sort_method}), 'application/json')
+    #     return HttpResponse(json.dumps({'search_keyword': search_keyword, 
+    #                                     'media': media, 
+    #                                     'category': category, 
+    #                                     'posts': serializers.serialize('json', posts), 
+    #                                     'total_count': total_count, 
+    #                                     'p_range': list(p_range), 
+    #                                     'media_list': list(media_list), 
+    #                                     'category_list': list(category_list), 
+    #                                     'keyword_list': keyword_list}), 'application/json')
 
 @csrf_exempt
 def article_analysis(request):
@@ -127,32 +117,6 @@ def aritcle_keyword_visualization(request): # 키워드 시각화 페이지
         # print('받은 텍스트 >', contents)
         wcURI, barURI, count = wordcloud01.generate_wordCloud( contents, wordcloud01.setFontPath() )
         return HttpResponse(json.dumps({"wordcloudURI":wcURI, "barURI":barURI, "wordCount":count}), "application/json")
-
-
-##### render_to_string을 이용해서 맹글어서 보내기. ### test.html과 article_keyword_table_contents.html 필요
-# @csrf_exempt
-# def renderToStringTest(request):
-#     if request.method == 'GET':
-#         return render(request, 'test.html')
-#     elif request.is_ajax():
-#         ### querry = r""" select * from article_article """
-#         ### test01 = article.objects.raw(querry)
-#         ### print(test01[0])
-#         ### print(dir(article.objects.all()[0]))
-#         ### print(article.objects.all()[0])
-#         ### querry = r""" select * from article_article where article_category=%s """
-#         ### test = article.objects.raw(querry,['사회'] )
-#         ### print(test[0])
-#         ### dishes = json.dumps([{"article_title":"기사제목1", "article_content":"내용1"},{"article_title":"기사제목2", "article_content":"내용2"}], ensure_ascii=False, )
-#         ### dishes = [{"article_title":"기사제목1", "article_content":"내용1"},{"article_title":"기사제목2", "article_content":"내용2"}]
-#         ### dishes = article.objects.all().values()[0];dishes = [dishes]
-#         dishes = article.objects.all().values()[:10]
-#         print(dishes, type(dishes))
-#         ### print(dishes['word'])
-#         html = render_to_string('article_keyword_table_contents.html', {'dishes': dishes})
-#         ### html = None
-#         return HttpResponse(html)
-#         pass
 
 @csrf_exempt
 def article_chart(request):
