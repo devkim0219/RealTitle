@@ -11,12 +11,11 @@ Real Title
     <div class="container justify-content-center d-flex">
         <div class="row">
             <div class="col-xl-12">                            
-                <!-- <div class="col-lg-8"> -->
-                    <div class="blog_right_sidebar">
+                <div class="blog_right_sidebar">
                     <style>
                         @import url('https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap');
                     </style>
-                        <p class="newsletter_text">Real Title은 신뢰있는 언론 환경을 조성하는 데 앞장서겠습니다!</p>
+                    <div id="bradcam_area2">
                         <aside class="single_sidebar_widget search_widget">
                             <form action="/article_list" method="GET">
                                 <div class="form-group">
@@ -31,10 +30,11 @@ Real Title
                                 <!--button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">검색</button-->
                             </form>
                         </aside>
+                        <p class="newsletter_text">Real Title은 신뢰있는 언론 환경을 조성하는 데 앞장서겠습니다!</p>
                     </div>
-                <!-- </div> -->
+                </div>
             </div>
-        </div>
+        </div>    
     </div>
 </div>
 <br>
@@ -46,7 +46,7 @@ Real Title
             <div class="col-xl-12">
                 <div class="section_title mb-50 text-center">
                     <h4>
-                        # 언론사 별 기사 보기
+                        언론사 별 기사 보기
                     </h4>
                 </div>
             </div>
@@ -60,7 +60,7 @@ Real Title
                         <div class="service_info">
                             <h3><img src="/static/img/media2/{{ media }}.png" style="width: 200px; margin-left: 60px;"></h3>
                             <br>
-                            <p style="margin-left: 30px;">{{ media }}의 신뢰 청정도는 ...%입니다.</p>
+                            <p style="margin-left: 60px;">{{ media }}의 신뢰 청정도는 <br></br>...%입니다.</p>
                         </div>
                     </div>
                     {% endfor %}
@@ -78,7 +78,7 @@ Real Title
             <div class="col-xl-12">
                 <div class="section_title mb-50 text-center">
                     <h4>
-                        # 카테고리 별 기사 보기
+                        카테고리 별 기사 보기
                     </h4>
                 </div>
             </div>

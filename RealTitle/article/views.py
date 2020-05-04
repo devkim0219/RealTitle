@@ -6,9 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from django.template.loader import render_to_string
 import json
-
 from .models import Article
-
 from utils.oracleDB import get_data, pagination
 from utils.visualize import wordcloud01
 
@@ -30,6 +28,11 @@ def index(request):
 
         media_list_arr.remove('KBS 연예')
         media_list_arr.remove('MBC연예')
+        media_list_arr.remove('AP연합뉴스')
+        media_list_arr.remove('EPA연합뉴스')
+        media_list_arr.remove('일다')
+        media_list_arr.remove('참세상')
+        media_list_arr.remove('헤럴드POP')
 
         # return render(request, 'index.html')
         return render(request, 'index.html', {'media_list': media_list_arr, 'category_list': category_list})
@@ -44,7 +47,7 @@ def article_list(request):
 
         article_list = get_data.searchArticle(search_keyword=search_keyword, media=media, category=category)
 
-        posts, total_count, p_range = pagination.pagination(data=article_list, page=page)
+        posts, total_count, p_range = pagination.get_pagination(data=article_list, page=page)
 
         media_list = get_data.getMediaList()
         category_list = get_data.getCategoryList()
@@ -60,32 +63,6 @@ def article_list(request):
                                                     'media_list': media_list,
                                                     'category_list': category_list,
                                                     'keyword_list': keyword_list})
-    
-    # elif request.method == 'POST':
-    #     search_keyword = request.POST.get('search_keyword', '')
-    #     media = request.POST.get('media', '')
-    #     category = request.POST.get('category', '')
-    #     page = request.GET.get('page', 1)
-    #     # sort_method = request.POST.get('sort_method', '')
-
-    #     article_list = get_data.searchArticle(search_keyword=search_keyword, media=media, category=category)
-
-    #     posts, total_count, p_range = pagination.pagination(data=article_list, page=page)
-
-    #     media_list = get_data.getMediaList()
-    #     print("media_list",media_list)
-    #     category_list = get_data.getCategoryList()
-    #     keyword_list = ['딥러닝맨', 'Real Title', '코로나', '날씨']
-
-    #     return HttpResponse(json.dumps({'search_keyword': search_keyword, 
-    #                                     'media': media, 
-    #                                     'category': category, 
-    #                                     'posts': serializers.serialize('json', posts), 
-    #                                     'total_count': total_count, 
-    #                                     'p_range': list(p_range), 
-    #                                     'media_list': list(media_list), 
-    #                                     'category_list': list(category_list), 
-    #                                     'keyword_list': keyword_list}), 'application/json')
 
 @csrf_exempt
 def article_analysis(request):

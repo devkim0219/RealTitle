@@ -39,7 +39,7 @@
 *,
 ::after,
 ::before {
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 html {
@@ -1774,12 +1774,14 @@ pre code {
 .table th {
     padding: .75rem;
     vertical-align: top;
+    text-align: center;
     border-top: 1px solid #dee2e6
 }
 
 .table thead th {
     vertical-align: bottom;
-    border-bottom: 2px solid #dee2e6
+    border-bottom: 2px solid #dee2e6;
+    background-color: #f8f9fa;
 }
 
 .table tbody+tbody {
@@ -4657,7 +4659,7 @@ tbody.collapse.show {
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #fff;
+    background-color: #ffffff;
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem

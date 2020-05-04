@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 import math
 
-def pagination(data, page):
+def get_pagination(data, page):
 
     # pagination
     paginator = Paginator(data, 10)
