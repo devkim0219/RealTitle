@@ -22,3 +22,51 @@
 #         ### html = None
 #         return HttpResponse(html)
 #         pass
+
+
+
+
+@csrf_exempt
+def test_sort(request):
+    ### 다른 테이블과 조인 같은 경우
+    # obj = Article.objects.extra( 
+    #     select={
+    #         'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name'
+    #     },
+    # )
+    # print(obj.values())
+
+    # return render(request, 'test_sort.html')
+    #### 게시글 정렬 테스트
+    articles_data = Article.objects.all()
+    ## queryset to json
+    # data = serializers.serialize("json",articles_data[:10].values())
+    ## queryset origin
+    sample_data = articles_data[:2]
+    data = serializers.serialize('json',sample_data)
+    # data = articles_data[:2].values()
+    return render(request, 'test_sort.html',{"data":data})
+
+
+
+
+
+
+
+
+
+##################################게시글 페이지네이션 테스트#####################
+
+@csrf_exempt
+def test_page(request):
+    # article_data = Article.objects.all() ## test01 query : ALL SELECT
+    article_data = Article.objects.extra(select={'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name'}).order_by('-article_date','article_id')
+    data = article_data # queryset
+    print(data)
+
+    paginator = Paginator(data, 10)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    # return render( request, 'test_page.html',{ "queryset":data, "listQueryset":list(data), "page_obj":page_obj } )
+    return render( request, 'test_page.html',{ "page_obj":page_obj } )
