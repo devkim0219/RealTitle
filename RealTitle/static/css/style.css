@@ -5019,6 +5019,7 @@ span.ui-slider-handle.ui-corner-all.ui-state-default:focus {
 }
 
 /* line 7, ../../Arafath/CL/Cl November/223. Transportation/HTML/scss/_bradcam.scss */
+
 .bradcam_area {
   background-size: cover;
   background-position: center center;
@@ -5026,7 +5027,6 @@ span.ui-slider-handle.ui-corner-all.ui-state-default:focus {
   padding: 60px 0 60px 0;
   background-repeat: no-repeat;
   position: relative;
-  /* z-index: 0; */
 }
 
 /* line 15, ../../Arafath/CL/Cl November/223. Transportation/HTML/scss/_bradcam.scss */
@@ -5081,7 +5081,8 @@ span.ui-slider-handle.ui-corner-all.ui-state-default:focus {
 /* line 45, ../../Arafath/CL/Cl November/223. Transportation/HTML/scss/_bradcam.scss */
 .bradcam_area p {
   font-size: 60px;
-  color: #fff;
+  /* color: #fff; */
+  color: #052bb1;
   font-weight: 400;
   text-transform: capitalize;
   font-family: 'East Sea Dokdo', cursive;
@@ -7864,7 +7865,7 @@ h6 {
   /* background: #fbf9ff; */
   background: #00000000;
   padding: 30px;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 }
 
 /* line 664, ../../Arafath/CL/Cl November/223. Transportation/HTML/scss/_blog.scss */
