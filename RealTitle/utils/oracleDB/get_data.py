@@ -24,29 +24,49 @@ def searchArticle(search_keyword, media, category):
         # 언론사, 검색어 둘 다 있을 때
         if media != '':
             # article_list = Article.objects.filter(article_media = media).filter(article_title__icontains=search_keyword).order_by('-article_date')
-            article_list = Article.objects.extra(select={'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name'}).filter(article_media = media).filter(article_title__icontains=search_keyword).order_by('-article_date', 'article_id')
+            article_list = Article.objects.extra(select={
+                                                    'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
+                                                    'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
+                                                    'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
+                                                }).filter(article_media = media).filter(article_title__icontains=search_keyword).order_by('-article_date', 'article_id')
 
         # 카테고리, 검색어 둘 다 있을 때
         elif category != '':
             # article_list = Article.objects.filter(article_category = category).filter(article_title__icontains=search_keyword).order_by('-article_date')
-            article_list = Article.objects.extra(select={'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name'}).filter(article_category = category).filter(article_title__icontains=search_keyword).order_by('-article_date', 'article_id')
+            article_list = Article.objects.extra(select={
+                                                    'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
+                                                    'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
+                                                    'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
+                                                }).filter(article_category = category).filter(article_title__icontains=search_keyword).order_by('-article_date', 'article_id')
 
         # 검색어만 있을 때
         else:
             # article_list = Article.objects.filter(Q(article_title__icontains=search_keyword) | Q(article_content__icontains=search_keyword)).order_by('-article_date')
             # article_list = Article.objects.filter(article_title__icontains=search_keyword).order_by('-article_date')
-            article_list = Article.objects.extra(select={'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name'}).filter(article_title__icontains=search_keyword).order_by('-article_date', 'article_id')
+            article_list = Article.objects.extra(select={
+                                                    'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
+                                                    'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
+                                                    'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
+                                                }).filter(article_title__icontains=search_keyword).order_by('-article_date', 'article_id')
 
     else:
         # 언론사만 있을 때
         if media != '':
             # article_list = Article.objects.filter(article_media = media).order_by('-article_date')
-            article_list = Article.objects.extra(select={'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name'}).filter(article_media = media).order_by('-article_date', 'article_id')
+            article_list = Article.objects.extra(select={
+                                                    'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
+                                                    'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
+                                                    'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
+                                                }).filter(article_media = media).order_by('-article_date', 'article_id')
 
         # 카테고리만 있을 때
         elif category != '':
             # article_list = Article.objects.filter(article_category = category).order_by('-article_date')
-            article_list = Article.objects.extra(select={'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name'}).filter(article_category = category).order_by('-article_date', 'article_id')
+            article_list = Article.objects.extra(select={
+                                                    'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
+                                                    'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
+                                                    'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
+                                                }).filter(article_category = category).order_by('-article_date', 'article_id')
 
         # 전체 리스트
         else:
@@ -59,7 +79,11 @@ def searchArticle(search_keyword, media, category):
             # sql query 사용 -> 무한로딩..
             # article_list = Article.objects.raw('SELECT article.*, media.media_url FROM article_article article, article_media media WHERE media.media_name = article.article_media')
 
-            article_list = Article.objects.extra(select={'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name'}).order_by('-article_date', 'article_id')
+            article_list = Article.objects.extra(select={
+                                                    'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
+                                                    'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
+                                                    'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
+                                                }).order_by('-article_date', 'article_id')
             
     return article_list
 
