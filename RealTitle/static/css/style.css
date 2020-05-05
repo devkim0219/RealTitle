@@ -780,12 +780,12 @@ h3 {
 /* line 28, ../../Arafath/CL/Cl November/223. Transportation/HTML/scss/_slick-nav.scss */
 .slicknav_menu .slicknav_nav a:hover {
   background: transparent;
-  color: #FF3414;
+  color: #052bb1;
 }
 
 /* line 32, ../../Arafath/CL/Cl November/223. Transportation/HTML/scss/_slick-nav.scss */
 .slicknav_menu .slicknav_nav a.active {
-  color: #FF3414;
+  color: #052bb1;
 }
 
 @media (max-width: 767px) {
@@ -1355,7 +1355,7 @@ h3 {
 .header-area .search_btn a {
   width: 35px;
   height: 35px;
-  background: #2846a7;
+  background: #052bb1;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
@@ -1364,6 +1364,7 @@ h3 {
   line-height: 35px;
   display: inline-block;
   color: #fff;
+  opacity: 0.7;
 }
 
 /* line 1, ../../Arafath/CL/Cl November/223. Transportation/HTML/scss/_slider.scss */
