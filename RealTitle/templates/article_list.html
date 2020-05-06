@@ -183,7 +183,7 @@
 {% block script %}
 <script type="text/javascript">
     var queryset = JSON.parse('{{ data | escapejs }}'); 
-    console.log(typeof(queryset), queryset)
+    // console.log(typeof(queryset), queryset)
 
     var node = $('article .blog_details')
 
@@ -191,15 +191,36 @@
         sort_method = $('#sort_method').val()
         
         $.each(queryset.reverse(),function(index, item){
-            console.log(index, item)
+            // console.log(index, item)
             // console.log(item.fields.result_newtitle)
             var thisnode = node.eq(index)
+            if ( item.result_acc == ''){
+                var acc = '없음'
+            }else{
+                var index = item.result_acc.toString().indexOf('.')
+                var acc = ( index == -1 ) ? item.result_acc : Number(item.result_acc.toFixed(1))
+                console.log(typeof(acc),acc, index)
+            }
+            if(item.result_acc < 50){
+                thisnode.find("p span").eq(2).attr('style','font-size: small; font-weight: bold;color:red;')
+                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;정확도 : " + acc +"%" );
+            }else if( item.result_acc >= 50 && item.result_acc < 80 ){
+                thisnode.find("p span").eq(2).attr('style','font-size: small; font-weight: bold;color:orange;')
+                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;정확도 : " + acc +"%" );
+            }else if( item.result_acc >= 80 ){
+                thisnode.find("p span").eq(2).attr('style','font-size: small; font-weight: bold;color:limegreen ;')
+                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;정확도 : " + acc +"%" );
+            }else{
+                thisnode.find("p span").eq(2).attr('style','font-size: small; font-weight: bold;color:lightgray ;')
+                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;정확도 : " + acc );
+            }
             thisnode.children("a").attr('href', item.article_url)                                // 제목에 달린 url
             thisnode.children(".d-inline-block").children('h3').html(item.result_newtitle)       // 우리 제목
             thisnode.children("p").eq(0).html(item.article_title)                                // 원제 
-            thisnode.children("p").eq(1).find("a").attr('href')                                         // 언론사 url
+            thisnode.children("p").eq(1).find("a").attr('href')                                  // 언론사 url
             thisnode.children("p").eq(1).find("a").html(item.article_media)                      // 언론사 이름
             thisnode.find("p span").eq(1).html(item.article_category + "&nbsp;&nbsp;|&nbsp;&nbsp;"+item.article_date)     // 카테고리 및 날짜
+                 // 카테고리 및 날짜
             thisnode.find("ul li a").eq(0).attr('href', item.article_url)                        // 원문보기 url 
             thisnode.find("ul li a").eq(1).attr('href', "/article_analysis?article_id=" + item.article_id)      // 분석보기 url
         })

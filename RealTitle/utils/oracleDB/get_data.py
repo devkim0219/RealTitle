@@ -1,15 +1,15 @@
 from django.db.models import Q ,Max
 from django.db import connection
-from article.models import Article, Media, Category
 import pandas as pd
 
+from article.models import Article, Media, Category
 from utils.visualize import keyword
 
 # 언론사 리스트 조회
-def getMediaList():
+def getMediaList(order_type):
     # 언론사 리스트
     # media_list = Media.objects.raw('SELECT MEDIA_NAME FROM ARTICLE_MEDIA')
-    media_list = Media.objects.values('media_name', 'media_acc').order_by('-media_acc')
+    media_list = Media.objects.values('media_name', 'media_acc').order_by(order_type)
 
     return media_list
 
@@ -139,7 +139,7 @@ def getKeywordsPerCategory():
         print(category)
         first_query = Article.objects.filter(article_category = category).aggregate(Max('article_date'))
         # print(first_query, first_query.keys(), first_query.get('article_date__max'))
-        queryset = Article.objects.filter( article_category= category , article_date=first_query.get('article_date__max') ).values('article_category','article_title','article_date')
+        queryset = Article.objects.values('article_category','article_title','article_date').filter( article_category= category , article_date=first_query.get('article_date__max') )
         # print(dir(queryset), queryset.values('article_title'), len(queryset))
 
         ### 개선전
@@ -161,9 +161,51 @@ def getKeywordsPerCategory():
     return keywords
 
 # 상세 기사 검색
-def detailSearchArticle(keyword, start_data, end_date):
-    sql = f"""select * from article_sample WHERE article_date > '{start_data}' AND article_date < '{end_date}'AND article_content LIKE '%{keyword}%'"""
-    
-    df = pd.read_sql(sql, connection)
+def detailSearchArticle(keyword, start_date, end_date):
+    # dataset = Article.objects.filter(article_title__icontains=keyword)
+    queryset = Article.objects.values('article_id', 'article_date').filter(article_title__icontains=keyword, article_date__gte=start_date, article_date__lte=end_date)
 
-    pass
+    df = pd.DataFrame.from_records(queryset)
+
+    df['timestamp'] = pd.to_datetime(df["article_date"],format='%Y%m%d', errors='ignore')
+    df['year'] = df["timestamp"].dt.year
+    df['month'] = df["timestamp"].dt.month
+    df['day'] = df["timestamp"].dt.day
+
+    result_df = df[['article_id', 'day', 'month', 'year']]
+
+    month_count_df = result_df.groupby('month').count()
+
+
+    # convert_date = datetime.strftime(date, "%Y-%m-%d").date()
+    # day = convert_date['day']
+    # month = convert_date['month'] 
+    # year = convert_date['year']
+
+    data = {
+            'labels': month_count_df.index.to_list(),
+            'datasets': [{
+                'label': keyword + '로 검색된 기사 빈도 수',
+                'data': month_count_df['article_id'].tolist(),
+                'backgroundColor': [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                'borderColor': [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                'borderWidth': 1,
+                'fill': False
+            }]
+        }
+
+    return data
