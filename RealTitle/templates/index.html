@@ -87,12 +87,21 @@ Real Title
             <div class="col-xl-12">
                 <div class="service_active owl-carousel">
                     <!-- 이하 반복문 처리 -->
-                    {% for category in category_list %}
+                    {% for key, value_list in category_list.items %}
                     <div class="single_service">
                         <div class="service_info">
                             <div style="margin-left: 40px;">
-                                <h3><a href="/article_list?category={{ category.category_name }}"># {{ category.category_name }}</a></h3>
-                                <p>{{ category.category_name }}의 키워드는 ...입니다.</p>
+                                <h3><a href="/article_list?category={{ key }}"> {{ key }}</a></h3>
+                                <p>
+                                    {{ key }}의 키워드는 
+                                    {% for value in value_list %}
+                                        <a href="/article_list?category={{ key }}&search_keyword={{value.0}}">#{{value.0}}</a>
+                                        {% if forloop.counter == 2 %}
+                                </br>
+                                        {% endif  %}
+                                    {% endfor %}
+                                    입니다.
+                                </p>
                             </div>
                         </div>
                     </div>

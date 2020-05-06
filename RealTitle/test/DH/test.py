@@ -70,3 +70,31 @@ def test_page(request):
 
     # return render( request, 'test_page.html',{ "queryset":data, "listQueryset":list(data), "page_obj":page_obj } )
     return render( request, 'test_page.html',{ "page_obj":page_obj } )
+
+
+
+
+###############################################################
+@csrf_exempt
+def test_frequency(request):
+    import time
+    start_time = time.time()
+    categories = ['사회','경제','정치','세계','IT과학','생활문화','오피니언']
+    keywords = {}
+    for category in categories:
+        print(category)
+        first_query = article_date=Article.objects.filter(article_category = category).aggregate(Max('article_date'))
+        # print(first_query, first_query.keys(), first_query.get('article_date__max'))
+        queryset = Article.objects.filter( article_category= category , article_date=first_query.get('article_date__max') ).values('article_category','article_title','article_date')
+        # print(dir(queryset), queryset.values('article_title'), len(queryset))
+
+        keywords[category] = keyword.text_preprocessing( queryset.values('article_title') )
+    print("--- %s seconds ---" % (time.time() - start_time))
+    # print(keywords[category])
+    
+    ### join with title
+    # titles = ' '.join( title['article_title'] for title in queryset.values('article_title') )
+    # print(titles)
+    # print(keyword.nouns_frequency(titles))
+    # return HttpResponse("blog-index")
+    return HttpResponse(keywords)

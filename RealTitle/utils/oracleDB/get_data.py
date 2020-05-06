@@ -1,7 +1,9 @@
-from django.db.models import Q
+from django.db.models import Q ,Max
 from django.db import connection
 from article.models import Article, Media, Category
 import pandas as pd
+
+from utils.visualize import keyword
 
 # 언론사 리스트 조회
 def getMediaList():
@@ -15,7 +17,6 @@ def getMediaList():
 def getCategoryList():
     # category_list = Category.objects.raw('SELECT CATEGORY_NAME FROM ARTICLE_CATEGORY')
     category_list = Category.objects.values('category_name')
-    
     return category_list
 
 # 기사 검색 조회
@@ -104,3 +105,33 @@ def insertArticle(file_name):
         article.save()
 
         print(article_id, 'insert complete')
+
+# Main 페이지 - 카테고리별로 5개 keyword 
+def getKeywordsPerCategory():
+    # print("category_list > ",list(Category.objects.values_list('category_name', flat=True)))
+    categories = list(Category.objects.values_list('category_name', flat=True))
+    keywords = {}
+    for category in categories:
+        print(category)
+        first_query = article_date=Article.objects.filter(article_category = category).aggregate(Max('article_date'))
+        # print(first_query, first_query.keys(), first_query.get('article_date__max'))
+        queryset = Article.objects.filter( article_category= category , article_date=first_query.get('article_date__max') ).values('article_category','article_title','article_date')
+        # print(dir(queryset), queryset.values('article_title'), len(queryset))
+
+        ### 개선전
+        if len(queryset) > 20:
+            data = queryset.values('article_title')[:20]
+        else :
+            data = queryset.values('article_title')
+        keywords[category] = keyword.text_preprocessing( data )
+
+        ### 개선선
+        # print('data 시작')
+        # if len(queryset) > 20:
+        #     print('if임')
+        #     data = list(queryset.values('article_title', flat=True))[0:20]
+        # else :
+        #     data = list(queryset.values_list('article_title', flat=True))
+        # print(data)
+        # keywords[category] = keyword.text_preprocessing_after( data )
+    return keywords

@@ -97,8 +97,7 @@ def generate_wordCloud(text, font_path, extractNum = 15):
     cleanText = clean_text(text)
     words = hannanum.nouns(cleanText)
     word_list = flatten(words)
-    word_list = pd.Series([x for x in word_list if len(x)>1])
-    # print( word_list.value_counts().head(20) )
+    word_list = pd.Series([x for x in word_list if len(x)>1]) #; print( word_list.value_counts().head(20) )
     stopwordList = ['’','”','‘','·','…','"',"'"]
     wordcloud = WordCloud(font_path=font_path
                         , stopwords=stopwordList
