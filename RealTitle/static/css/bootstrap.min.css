@@ -2640,8 +2640,9 @@ fieldset:disabled a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff
+    background-color: #052bb1;
+    border-color: #fff;
+    margin: 10px
 }
 
 .btn-primary:hover {
@@ -5181,10 +5182,10 @@ tbody.collapse.show {
 
 .alert {
     position: relative;
-    padding: .75rem 1.25rem;
+    padding: .50rem 0.6rem;
     margin-bottom: 1rem;
     border: 1px solid transparent;
-    border-radius: .25rem
+    /*border-radius: .25rem*/
 }
 
 .alert-heading {
@@ -5208,8 +5209,8 @@ tbody.collapse.show {
 }
 
 .alert-primary {
-    color: #004085;
-    background-color: #cce5ff;
+    color: #ffff;
+    background-color: #b8daff;
     border-color: #b8daff
 }
 

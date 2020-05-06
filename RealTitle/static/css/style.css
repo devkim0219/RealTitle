@@ -294,7 +294,7 @@ h3 {
   /* padding-top: 120px;
   padding-bottom: 120px; */
   padding-top: 80px;
-  padding-bottom: 100px;
+  padding-bottom: 150px;
 }
 
 /* line 214, ../../Arafath/CL/Cl November/223. Transportation/HTML/scss/theme-default.scss */
@@ -5494,7 +5494,7 @@ span.ui-slider-handle.ui-corner-all.ui-state-default:focus {
 .service_area .single_service .service_info p {
   font-size: 20px;
   font-weight: 500;
-  color: #2846a7;
+  color: #6c757d;
   margin-bottom: 0;
 }
 
