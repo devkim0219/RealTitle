@@ -93,7 +93,8 @@ Real Title
                     <div class="single_service">
                         <div class="service_info">
                             <div style="margin-left: 40px;">
-                                <h3><a href="/article_list?category={{ key }}"> {{ key }}</a></h3>
+                                <!--h3><a href="/article_list?category={{ key }}"> {{ key }}</a></h3-->
+                                <h3><a href="/article_list?category={{ key }}"><img src="/static/img/category/{{ key }}.png" style="width: 100px;"></a></h3>
                                 <p>
                                     {% for value in value_list %}
                                         <a href="/article_list?category={{ key }}&search_keyword={{value.0}}">#{{value.0}}</a>

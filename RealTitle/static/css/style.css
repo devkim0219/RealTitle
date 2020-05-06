@@ -67,7 +67,7 @@ a:hover,
 /* line 34, ../../Arafath/CL/Cl November/223. Transportation/HTML/scss/theme-default.scss */
 a,
 button {
-  color: #1F1F1F;
+  color: #6c757d;
   outline: medium none;
 }
 
@@ -734,7 +734,7 @@ h3 {
   font-size: 50px;
   font-weight: 500;
   color: #001D38;
-  padding-bottom: 21px;
+  /*padding-bottom: 21px;*/
   font-family: 'East Sea Dokdo', cursive;
 }
 
