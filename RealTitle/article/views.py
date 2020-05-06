@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.db.models import Q 
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
-from django.core import serializers
-from django.template.loader import render_to_string
+# from django.core import serializers
+from rest_framework import serializers
+from .Aritcle_Serializers import ArticleSerializer
 import json
 from .models import Article
 from utils.oracleDB import get_data, pagination
@@ -76,11 +77,15 @@ def article_list(request):
         category_list = get_data.getCategoryList()
         keyword_list = ['딥러닝맨', 'Real Title', '코로나', '날씨']
 
+        serializers = ArticleSerializer(posts, many=True)
+        data = json.dumps(serializers.data)
+
         return render(request, 'article_list.html', {'search_keyword': search_keyword,
                                                     'media': media,
                                                     'category': category,
                                                     'posts': posts,
-                                                    'data': serializers.serialize('json', posts),
+                                                    # 'data': serializers.serialize('json', posts),
+                                                    'data': data,
                                                     'total_count': total_count,
                                                     'p_range': p_range,
                                                     'media_list': media_list,
