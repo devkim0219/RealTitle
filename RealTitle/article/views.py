@@ -21,8 +21,8 @@ def index(request):
     if request.method == 'GET':
         # file_name = 'total_article_ver1_20200427'
     
-        # get_article.insertArticle(file_name)
-        media_list = get_data.getMediaList()
+        # get_data.insertArticle(file_name)
+        media_list = get_data.getMediaList(order_type='-media_acc')
         # category_list = get_data.getCategoryList()
         # keyword_list = get_data.getKeywordsPerCategory()
         
@@ -52,11 +52,7 @@ def index(request):
 
         for idx, value in enumerate(media_list_arr):
             if value[0] in media_rm_list:
-                print('media_list_arr[idx]', media_list_arr[idx])
                 media_list_arr.remove(value)    
-
-        # print('media_list_arr ->', media_list_arr)
-        # print('len media_list_arr ->', len(media_list_arr))
 
         # return render(request, 'index.html')
         return render(request, 'index.html', {'media_list': media_list_arr, 'category_list': category_list})
@@ -74,7 +70,7 @@ def article_list(request):
 
         posts, total_count, p_range = pagination.get_pagination(data=article_list, page=page)
 
-        media_list = get_data.getMediaList()
+        media_list = get_data.getMediaList(order_type='media_name')
         category_list = get_data.getCategoryList()
         keyword_list = ['딥러닝맨', 'Real Title', '코로나', '날씨']
 
@@ -129,30 +125,10 @@ def article_chart(request):
         return render(request, 'article_chart.html')
 
     elif request.method == 'POST':
-        data = {
-            'labels': ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            'datasets': [{
-                # 'label': '# of Votes',
-                'data': [12, 19, 3, 5, 2, 3],
-                'backgroundColor': [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                'borderColor': [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                'borderWidth': 1,
-                'fill': False
-            }]
-        }
+        search_keyword = request.POST.get('search_keyword', '')
+        start_date = request.POST.get('start_date', 0)
+        end_date = request.POST.get('end_date', 99999999)
+
+        data = get_data.detailSearchArticle(search_keyword, start_date, end_date)
 
         return HttpResponse(json.dumps(data), 'application/json')

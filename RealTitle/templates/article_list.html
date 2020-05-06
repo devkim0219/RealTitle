@@ -183,7 +183,7 @@
 {% block script %}
 <script type="text/javascript">
     var queryset = JSON.parse('{{ data | escapejs }}'); 
-    console.log(typeof(queryset), queryset)
+    // console.log(typeof(queryset), queryset)
 
     var node = $('article .blog_details')
 
@@ -191,13 +191,13 @@
         sort_method = $('#sort_method').val()
         
         $.each(queryset.reverse(),function(index, item){
-            console.log(index, item)
+            // console.log(index, item)
             // console.log(item.fields.result_newtitle)
             var thisnode = node.eq(index)
             thisnode.children("a").attr('href', item.article_url)                                // 제목에 달린 url
             thisnode.children(".d-inline-block").children('h3').html(item.result_newtitle)       // 우리 제목
             thisnode.children("p").eq(0).html(item.article_title)                                // 원제 
-            thisnode.children("p").eq(1).find("a").attr('href')                                         // 언론사 url
+            thisnode.children("p").eq(1).find("a").attr('href')                                  // 언론사 url
             thisnode.children("p").eq(1).find("a").html(item.article_media)                      // 언론사 이름
             thisnode.find("p span").eq(1).html(item.article_category + "&nbsp;&nbsp;|&nbsp;&nbsp;"+item.article_date)     // 카테고리 및 날짜
             thisnode.find("ul li a").eq(0).attr('href', item.article_url)                        // 원문보기 url 
