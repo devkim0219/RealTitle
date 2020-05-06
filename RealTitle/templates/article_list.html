@@ -62,7 +62,7 @@
                                 <h3>{{ tmp.result_newtitle }}</h3>
                             </a>
                             <p>{{ tmp.article_title }}</p>
-                            <p style="margin-bottom: -25px;"><span style="font-size: 14px; font-weight: bold;"><a {% if tmp.media_url != '' %} href="{{ tmp.media_url }}"  target="_blank" {% else %} href="#" {% endif %}>{{ tmp.article_media }}</a></span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 12px;">{{ tmp.article_category }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ tmp.article_date }}</span><span style="font-size: small; font-weight: bold; {% if tmp.result_acc < 50 %} color: red;{% elif tmp.result_acc >= 50 and tmp.result_acc < 80 %} color: orange; {% elif tmp.result_acc >= 80 and tmp.result_acc <= 100 %} color: limegreen; {% else %} color: lightgray; {% endif %}">&nbsp;&nbsp;&nbsp;정확도 : {% if tmp.result_acc != '' %}{{ tmp.result_acc|floatformat }}%{% else %}없음{% endif %}</span></p>
+                            <p style="margin-bottom: -25px;"><span style="font-size: 14px; font-weight: bold;"><a {% if tmp.media_url != '' %} href="{{ tmp.media_url }}"  target="_blank" {% else %} href="#" {% endif %}>{{ tmp.article_media }}</a></span><span style="font-size: 12px; margin-left: 10px;">{{ tmp.article_category }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ tmp.article_date }}</span><span style="font-size: small; font-weight: bold; {% if tmp.result_acc < 50 %} color: red;{% elif tmp.result_acc >= 50 and tmp.result_acc < 80 %} color: orange; {% elif tmp.result_acc >= 80 and tmp.result_acc <= 100 %} color: limegreen; {% else %} color: lightgray; {% endif %}">&nbsp;&nbsp;&nbsp;정확도 : {% if tmp.result_acc != '' %}{{ tmp.result_acc|floatformat }}%{% else %}없음{% endif %}</span></p>
                             <ul class="blog-info-link justify-content-end d-flex">
                                 <li><a href="{{ tmp.article_url }}" target="_blank"><i class="fa fa-file-text-o"></i>원문 보기</a></li>
                                 <li><a href="/article_analysis?article_id={{ tmp.article_id }}"><i class="fa fa-bar-chart"></i>분석 보기</a></li>
@@ -167,12 +167,6 @@
                             {% endfor %}
                         </ul>
                     </aside>
-                    <aside class="single_sidebar_widget tag_cloud_widget">
-                        <h4 class="widget_title">검색어 트렌드</h4>
-                        <ul class="list">
-                            년, 월, 일 별 빈도수? 시각화
-                        </ul>
-                    </aside>
                 </div>
             </div>
         </div>
@@ -190,35 +184,25 @@
 <script type="text/javascript">
     var queryset = JSON.parse('{{ data | escapejs }}'); 
     console.log(typeof(queryset), queryset)
-    // // if asc = data / if desc => pop()
-    // // first, asc
+
     var node = $('article .blog_details')
 
     $('#sort_icon').click(function() {
         sort_method = $('#sort_method').val()
-        console.log(sort_method)
         
-        // if (sort_method == 'desc'){
-        //     dataset = queryset
-        // }else if (sort_method == 'asc'){
-        //     dataset = queryset.reverse()
-        // }
         $.each(queryset.reverse(),function(index, item){
-            // console.log(index, item)
-            // console.log(item.fields.article_title)
+            console.log(index, item)
+            console.log(item.fields.result_newtitle)
             var thisnode = node.eq(index)
-            thisnode.children("a").attr('href', item.fields.article_url)                         // 제목에 달린 url
-            thisnode.children(".d-inline-block").children('h3').html('ourtitle'+index )         // 우리 제목
-            thisnode.children("p").eq(0).html(item.fields.article_title)                        // 원제 
-            thisnode.children("p").eq(1).find("a").attr('href')       // 언론사 url
-            thisnode.children("p").eq(1).find("a").html(item.fields.article_media)             // 언론사 이름
-            thisnode.find("p span").eq(1).html(item.fields.article_category + "&nbsp;&nbsp;|&nbsp;&nbsp;"+item.fields.article_date)                       // 카테고리 및 날짜
-
-            // console.log(thisnode.find("ul li a").eq(0).attr('href') )               // 원문보기 url 
-            thisnode.find("ul li a").eq(0).attr('href', item.fields.article_url)                // 원문보기 url 
-            thisnode.find("ul li a").eq(1).attr('href', "/article_analysis?article_id=" + item.pk)                // 분석보기 url
+            thisnode.children("a").attr('href', item.fields.article_url)                                // 제목에 달린 url
+            thisnode.children(".d-inline-block").children('h3').html(item.fields.result_newtitle)       // 우리 제목
+            thisnode.children("p").eq(0).html(item.fields.article_title)                                // 원제 
+            thisnode.children("p").eq(1).find("a").attr('href')                                         // 언론사 url
+            thisnode.children("p").eq(1).find("a").html(item.fields.article_media)                      // 언론사 이름
+            thisnode.find("p span").eq(1).html(item.fields.article_category + "&nbsp;&nbsp;|&nbsp;&nbsp;"+item.fields.article_date)     // 카테고리 및 날짜
+            thisnode.find("ul li a").eq(0).attr('href', item.fields.article_url)                        // 원문보기 url 
+            thisnode.find("ul li a").eq(1).attr('href', "/article_analysis?article_id=" + item.pk)      // 분석보기 url
         })
-
 
         if(sort_method == 'asc') {
             $('#sort_method').val('desc')

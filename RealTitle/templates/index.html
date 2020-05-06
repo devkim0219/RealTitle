@@ -60,9 +60,9 @@ Real Title
                     {% for media in media_list %}
                     <div class="single_service">
                         <div class="service_info">
-                            <h3><img src="/static/img/media2/{{ media }}.png" style="width: 200px; margin-left: 60px;"></h3>
+                            <a href="/article_list?media={{ media }}"><img src="/static/img/media2/{{ media }}.png" style="width: 200px; margin-left: 60px;"></a>
                             <br>
-                            <p style="margin-left: 60px;">{{ media }}의 신뢰 청정도는 <br></br>...%입니다.</p>
+                            <p style="margin-left: 60px;">{{ media }}의 신뢰 청정도 <br>...%</p>
                         </div>
                     </div>
                     {% endfor %}

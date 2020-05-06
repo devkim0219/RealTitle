@@ -29,7 +29,7 @@ def searchArticle(search_keyword, media, category):
                                                     'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
                                                     'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
                                                     'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
-                                                }).filter(article_media = media).filter(article_title__icontains=search_keyword).order_by('-article_date', 'article_id')
+                                                }).filter(article_media = media).filter(article_title__icontains=search_keyword).order_by('-article_date', '-result_acc')
 
         # 카테고리, 검색어 둘 다 있을 때
         elif category != '':
@@ -38,7 +38,7 @@ def searchArticle(search_keyword, media, category):
                                                     'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
                                                     'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
                                                     'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
-                                                }).filter(article_category = category).filter(article_title__icontains=search_keyword).order_by('-article_date', 'article_id')
+                                                }).filter(article_category = category).filter(article_title__icontains=search_keyword).order_by('-article_date', '-result_acc')
 
         # 검색어만 있을 때
         else:
@@ -48,7 +48,7 @@ def searchArticle(search_keyword, media, category):
                                                     'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
                                                     'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
                                                     'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
-                                                }).filter(article_title__icontains=search_keyword).order_by('-article_date', 'article_id')
+                                                }).filter(article_title__icontains=search_keyword).order_by('-article_date', '-result_acc')
 
     else:
         # 언론사만 있을 때
@@ -58,7 +58,7 @@ def searchArticle(search_keyword, media, category):
                                                     'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
                                                     'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
                                                     'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
-                                                }).filter(article_media = media).order_by('-article_date', 'article_id')
+                                                }).filter(article_media = media).order_by('-article_date', '-result_acc')
 
         # 카테고리만 있을 때
         elif category != '':
@@ -67,7 +67,7 @@ def searchArticle(search_keyword, media, category):
                                                     'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
                                                     'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
                                                     'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
-                                                }).filter(article_category = category).order_by('-article_date', 'article_id')
+                                                }).filter(article_category = category).order_by('-article_date', '-result_acc')
 
         # 전체 리스트
         else:
@@ -84,7 +84,7 @@ def searchArticle(search_keyword, media, category):
                                                     'media_url':'SELECT media_url FROM article_media WHERE article_article.article_media = media_name', 
                                                     'result_newtitle':'SELECT result_newtitle FROM article_result WHERE article_article.article_id = article_result.result_id',
                                                     'result_acc':'SELECT result_acc FROM article_result WHERE article_article.article_id = article_result.result_id'
-                                                }).order_by('-article_date', 'article_id')
+                                                }).order_by('-article_date', '-result_acc')
             
     return article_list
 
@@ -159,3 +159,7 @@ def getKeywordsPerCategory():
         # print(data)
         # keywords[category] = keyword.text_preprocessing_after( data )
     return keywords
+# 상세 기사 검색
+def detailSearchArticle(keyword, start_data, end_date):
+
+    pass
