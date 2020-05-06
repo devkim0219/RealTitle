@@ -139,7 +139,7 @@ def getKeywordsPerCategory():
         print(category)
         first_query = Article.objects.filter(article_category = category).aggregate(Max('article_date'))
         # print(first_query, first_query.keys(), first_query.get('article_date__max'))
-        queryset = Article.objects.filter(article_category= category , article_date=first_query.get('article_date__max') ).values('article_category','article_title','article_date')
+        queryset = Article.objects.values('article_category','article_title','article_date').filter( article_category= category , article_date=first_query.get('article_date__max') )
         # print(dir(queryset), queryset.values('article_title'), len(queryset))
 
         ### 개선전
