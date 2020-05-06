@@ -9,7 +9,7 @@ from utils.visualize import keyword
 def getMediaList():
     # 언론사 리스트
     # media_list = Media.objects.raw('SELECT MEDIA_NAME FROM ARTICLE_MEDIA')
-    media_list = Media.objects.values('media_name')
+    media_list = Media.objects.values('media_name', 'media_acc').order_by('-media_acc')
 
     return media_list
 
@@ -162,5 +162,8 @@ def getKeywordsPerCategory():
 
 # 상세 기사 검색
 def detailSearchArticle(keyword, start_data, end_date):
+    sql = f"""select * from article_sample WHERE article_date > '{start_data}' AND article_date < '{end_date}'AND article_content LIKE '%{keyword}%'"""
+    
+    df = pd.read_sql(sql, connection)
 
     pass

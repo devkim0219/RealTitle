@@ -45,17 +45,18 @@ def index(request):
             category_list = pickle.load(f)
 
         media_list_arr = []
+        media_rm_list = ['KBS 연예', 'MBC연예', 'AP연합뉴스', 'EPA연합뉴스', '일다', '참세상', '헤럴드POP']
 
         for media in media_list:
-            media_list_arr.append(media['media_name'])
+            media_list_arr.append((media['media_name'], media['media_acc']))
 
-        media_list_arr.remove('KBS 연예')
-        media_list_arr.remove('MBC연예')
-        media_list_arr.remove('AP연합뉴스')
-        media_list_arr.remove('EPA연합뉴스')
-        media_list_arr.remove('일다')
-        media_list_arr.remove('참세상')
-        media_list_arr.remove('헤럴드POP')
+        for idx, value in enumerate(media_list_arr):
+            if value[0] in media_rm_list:
+                print('media_list_arr[idx]', media_list_arr[idx])
+                media_list_arr.remove(value)    
+
+        # print('media_list_arr ->', media_list_arr)
+        # print('len media_list_arr ->', len(media_list_arr))
 
         # return render(request, 'index.html')
         return render(request, 'index.html', {'media_list': media_list_arr, 'category_list': category_list})
