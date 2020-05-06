@@ -95,14 +95,12 @@ Real Title
                             <div style="margin-left: 40px;">
                                 <h3><a href="/article_list?category={{ key }}"> {{ key }}</a></h3>
                                 <p>
-                                    {{ key }}의 키워드는 
                                     {% for value in value_list %}
                                         <a href="/article_list?category={{ key }}&search_keyword={{value.0}}">#{{value.0}}</a>
                                         {% if forloop.counter == 2 %}
                                 </br>
                                         {% endif  %}
                                     {% endfor %}
-                                    입니다.
                                 </p>
                             </div>
                         </div>
