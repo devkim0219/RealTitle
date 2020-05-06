@@ -137,7 +137,7 @@ def getKeywordsPerCategory():
     keywords = {}
     for category in categories:
         print(category)
-        first_query = article_date=Article.objects.filter(article_category = category).aggregate(Max('article_date'))
+        first_query = Article.objects.filter(article_category = category).aggregate(Max('article_date'))
         # print(first_query, first_query.keys(), first_query.get('article_date__max'))
         queryset = Article.objects.filter( article_category= category , article_date=first_query.get('article_date__max') ).values('article_category','article_title','article_date')
         # print(dir(queryset), queryset.values('article_title'), len(queryset))
@@ -159,6 +159,7 @@ def getKeywordsPerCategory():
         # print(data)
         # keywords[category] = keyword.text_preprocessing_after( data )
     return keywords
+
 # 상세 기사 검색
 def detailSearchArticle(keyword, start_data, end_date):
 

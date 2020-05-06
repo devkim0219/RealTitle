@@ -18,7 +18,7 @@ import time
 
 def index(request):
     if request.method == 'GET':
-        file_name = 'total_article_ver1_20200427'
+        # file_name = 'total_article_ver1_20200427'
     
         # get_article.insertArticle(file_name)
         media_list = get_data.getMediaList()
@@ -26,19 +26,22 @@ def index(request):
         # keyword_list = get_data.getKeywordsPerCategory()
         
         # category_list = {'IT과학':['a','b','c','d','e'], '경제':['a','b','c','d','e'], '사회':['a','b','c','d','e'], '생활문화':['a','b','c','d','e'], '세계':['a','b','c','d','e'], '오피니언':['a','b','c','d','e'], '정치':['a','b','c','d','e']}
-        dirPath = './output/keyword_logs/'
-        fileName_keywordlist = 'category_list_'+time.strftime("%Y%m%d")+'.pickle'
-        if os.path.exists(dirPath):
-            print('폴더가 있음')
-        else :
-            os.mkdir(dirPath)
-        if os.path.exists(dirPath + fileName_keywordlist):
-            with open(dirPath+fileName_keywordlist, 'rb') as f :
-                category_list = pickle.load(f)
-        else :
-            category_list = get_data.getKeywordsPerCategory()
-            with open(dirPath+fileName_keywordlist, 'wb') as f:
-                pickle.dump(category_list, f, protocol=pickle.HIGHEST_PROTOCOL)
+        # dirPath = './output/keyword_logs/'
+        # fileName_keywordlist = 'category_list_'+time.strftime("%Y%m%d")+'.pickle'
+        # if os.path.exists(dirPath):
+        #     print('폴더가 있음')
+        # else :
+        #     os.mkdir(dirPath)
+        # if os.path.exists(dirPath + fileName_keywordlist):
+        #     with open(dirPath+fileName_keywordlist, 'rb') as f :
+        #         category_list = pickle.load(f)
+        # else :
+        #     category_list = get_data.getKeywordsPerCategory()
+        #     with open(dirPath+fileName_keywordlist, 'wb') as f:
+        #         pickle.dump(category_list, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+        with open('./output/keyword_logs/category_list.pickle', 'rb') as f :
+            category_list = pickle.load(f)
 
         media_list_arr = []
 
