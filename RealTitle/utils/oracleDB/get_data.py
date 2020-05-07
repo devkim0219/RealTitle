@@ -179,33 +179,20 @@ def detailSearchArticle(keyword, start_date, end_date):
 
     # convert_date = datetime.strftime(date, "%Y-%m-%d").date()
     # day = convert_date['day']
-    # month = convert_date['month'] 
+    # month = convert_date['month']
     # year = convert_date['year']
 
     data = {
-            'labels': month_count_df.index.to_list(),
-            'datasets': [{
-                'label': keyword + '로 검색된 기사 빈도 수',
-                'data': month_count_df['article_id'].tolist(),
-                'backgroundColor': [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                'borderColor': [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                'borderWidth': 1,
-                'fill': False
-            }]
-        }
+        'labels': month_count_df.index.to_list(),
+        'datasets': [{
+            'label': keyword,
+            'data': month_count_df['article_id'].tolist(),
+            'backgroundColor': 'rgba(255, 99, 132, 0.2)',
+            'borderColor': 'rgba(255, 99, 132, 1)',
+            'borderWidth': 1,
+            'fill': False,
+            'pointRadius': 10
+        }]
+    }
 
     return data

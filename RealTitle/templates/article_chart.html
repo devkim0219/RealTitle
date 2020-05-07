@@ -19,11 +19,19 @@
         </div>
     </div>
 </div>
+
+<!-- 키워드 트렌드 -->
 <section class="blog_area section-padding">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 mb-5 mb-lg-0">
-                <h3># 기사 상세 검색</h3>
+            <div class="col-xl-12">
+                <div class="section_title mb-50 text-left">
+                    <h4>기사 검색 & 기간 별 빈도 수</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-4">
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="search_keyword" placeholder='키워드를 입력하세요.' onfocus="this.placeholder = ''" onblur="this.placeholder = '키워드를 입력하세요.'">
@@ -34,12 +42,14 @@
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="end_date" placeholder='종료 날짜를 입력하세요. ex)20200508' onfocus="this.placeholder = ''" onblur="this.placeholder = '종료 날짜를 입력하세요. ex)20200508'">    
                     </div>
-                    <button id ="search_btn" class="btn" type="button"><i class="ti-search">&nbsp;검색</i></button>
+                    <div class="input-group mb-3">
+                        <button id ="search_btn" class="btn" type="button"><i class="ti-search">&nbsp;검색</i></button>
+                    </div>    
                 </div>
-                <h3># 키워드 트렌드</h3>
+                
             </div>
-            <div style="width: 600px; height: 400px;">
-                <canvas id="myChart" width="600px" height="400px"></canvas>
+            <div style="width: 100%;">
+                <canvas id="myChart"></canvas>
             </div>
         </div>
     </div>
@@ -75,6 +85,28 @@ $('#search_btn').click(function() {
             new Chart(ctx, {
                 type: 'line',
                 data: data,
+                options: {
+                    scales: {
+                        x: {
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: '월'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: '기사 수'
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: '키워드로 검색된 월 별 기사 빈도 수'
+                    }
+                }
             });
         },
         beforeSend:function(){
@@ -84,7 +116,7 @@ $('#search_btn').click(function() {
             $('.wrap-loading').addClass('display-none')
         },
         error: function(request, error) {
-            alert('전송 실패...')
+            alert('검색된 결과가 없어요..ㅜㅜ')
         }
     })
 })
