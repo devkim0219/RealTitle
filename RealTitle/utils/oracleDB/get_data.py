@@ -161,7 +161,7 @@ def getKeywordsPerCategory():
     return keywords
 
 # 상세 기사 검색
-def detailSearchArticle(keyword, start_date, end_date):
+def keywordTrend(keyword, start_date, end_date):
     # dataset = Article.objects.filter(article_title__icontains=keyword)
     queryset = Article.objects.values('article_id', 'article_date').filter(article_title__icontains=keyword, article_date__gte=start_date, article_date__lte=end_date)
 
@@ -191,7 +191,28 @@ def detailSearchArticle(keyword, start_date, end_date):
             'borderColor': 'rgba(255, 99, 132, 1)',
             'borderWidth': 1,
             'fill': False,
-            'pointRadius': 10
+            'pointRadius': 5
+        }]
+    }
+
+    return data
+
+def mediaAnalysis(media_name=''):
+    queryset = Article.objects.values('article_id', 'article_category').filter(article_media = media_name)
+    category_q = Category.objects.values('category_name')
+    df = pd.DataFrame.from_records(queryset)
+    category_df = pd.DataFrame.from_records(category_q)
+    media_count_df = df.groupby(['article_category']).count()
+
+    data = {
+        'labels': category_df['category_name'].tolist(),
+        'datasets': [{
+            'label': media_name,
+            'data': media_count_df['article_id'].tolist(),
+            'backgroundColor': 'rgba(255, 99, 132, 0.2)',
+            'borderColor': 'rgba(255, 99, 132, 1)',
+            'borderWidth': 1,
+            'fill': True
         }]
     }
 

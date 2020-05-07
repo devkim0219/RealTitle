@@ -132,13 +132,13 @@ class TextRank:
     def build(self):
         self.graph = networkx.Graph()
         slices = dict( itertools.islice( self.dictCount.items(), 15 ) )
-        print("keys() > ",slices.keys())
-        print("keys() > ", [ tuples[0] for tuples in slices.keys()] )
+        # print("keys() > ",slices.keys())
+        # print("keys() > ", [ tuples[0] for tuples in slices.keys()] )
         self.graph.add_nodes_from(slices.keys())
         # self.graph.add_nodes_from([ tuples[0] for tuples in slices.keys()])
         # self.graph.add_nodes_from(self.dictCount.keys())
-        print('self.dictBiCount >', dict( itertools.islice( self.dictBiCount.items(), len(self.dictBiCount)//2 )  ) )
-        print('self.dictBiCount_length >', len(self.dictBiCount) )
+        # print('self.dictBiCount >', dict( itertools.islice( self.dictBiCount.items(), len(self.dictBiCount)//2 )  ) )
+        # print('self.dictBiCount_length >', len(self.dictBiCount) )
         for (a, b), n in dict( itertools.islice( self.dictBiCount.items(), len(self.dictBiCount)//2 ) ).items():
             self.graph.add_edge(a, b, weight=n*self.coef + (1-self.coef))
         # for (a, b), n in self.dictBiCount.items():

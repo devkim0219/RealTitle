@@ -108,8 +108,6 @@ def article_analysis(request):
         nx_uri = keyword.draw_keyword(tr_object)
         return render(request, 'article_analysis.html', { "wordcloud":wc, "barchart":bar,"count":count, "article_url":url, "networkx":nx_uri })
     
-
-
 @csrf_exempt
 def aritcle_keyword_visualization(request): # 키워드 시각화 페이지
     if request.method == 'GET':
@@ -124,15 +122,29 @@ def aritcle_keyword_visualization(request): # 키워드 시각화 페이지
         return HttpResponse(json.dumps({"wordcloudURI":wcURI, "barURI":barURI, "wordCount":count, "networkx":nx_uri}), "application/json")
 
 @csrf_exempt
-def article_chart(request):
+def article_keyword_trend(request):
     if request.method == 'GET':
-        return render(request, 'article_chart.html')
+        return render(request, 'article_keyword_trend.html')
 
     elif request.method == 'POST':
         search_keyword = request.POST.get('search_keyword', '')
         start_date = request.POST.get('start_date', 0)
         end_date = request.POST.get('end_date', 99999999)
 
-        data = get_data.detailSearchArticle(search_keyword, start_date, end_date)
+        data = get_data.keywordTrend(search_keyword, start_date, end_date)
+
+        return HttpResponse(json.dumps(data), 'application/json')
+
+@csrf_exempt
+def article_media_analysis(request):
+    if request.method == 'GET':
+        media_list = get_data.getMediaList(order_type='media_name')
+
+        return render(request, 'article_media_analysis.html', {'media_list': media_list})
+
+    elif request.method == 'POST':
+        media_name = request.POST.get('media_name', '')
+
+        data = get_data.mediaAnalysis(media_name=media_name)
 
         return HttpResponse(json.dumps(data), 'application/json')

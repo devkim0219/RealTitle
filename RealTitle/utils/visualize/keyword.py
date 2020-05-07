@@ -38,17 +38,17 @@ def text_preprocessing(queryset):
 
 ## 키워드 추출 관련.
 def tr(text):
-    print( text)
+    # print( text)
     text = ''.join( text.split() )
-    print( text)
-    print("clean text >",wordcloud01.clean_text(text).strip())
+    # print( text)
+    # print("clean text >",wordcloud01.clean_text(text).strip())
     tr = textrank.TextRank(window=5, coef=1)
-    print('Load...')
+    # print('Load...')
     # stopword = set( [('있', 'VV'), ('하', 'VV'), ('되', 'VV'), ('없', 'VV') ] )
     # tr.load( textrank.RawTaggerReader(text), lambda w : w not in stopword and ( w[1] in ('NNG', 'NNP') ) )
     stopword = set( ['있', '하', '되', '없', '은', '태', '을', '도', '라고', '것', '리', '내니', '있다', '과', '수', '오', '이제', '히먄', '내', '의', '데', '셈', '명','두','등','이상의','최','가', '이어', '지금', '결국', '에', '식', '가운데', '대', '위', '이', '게', '보면', '위해', '본', '관련' ] )
     tr.load( textrank.RawTaggerReader(text) , lambda w : w not in stopword)
-    print('Build...')
+    # print('Build...')
     tr.build()
     return tr
 

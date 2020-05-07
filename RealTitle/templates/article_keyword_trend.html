@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-기사 검색 & 키워드 트렌드 시각화
+키워드 트렌드 분석
 {% endblock %}
 
 {% block content %}
@@ -13,7 +13,7 @@
                     @import url('https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap');
                 </style>
                 <div class="bradcam_text text-center">
-                    <h3>키워드 트렌드</h3>
+                    <h3>키워드 트렌드 분석</h3>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@ $('#search_btn').click(function() {
 
     $.ajax({
         type: 'POST',
-        url: "{% url 'article_chart' %}",
+        url: "{% url 'article_keyword_trend' %}",
         data: {
             search_keyword: search_keyword,
             start_date: start_date,

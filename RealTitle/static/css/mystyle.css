@@ -193,3 +193,7 @@
     z-index: -1;
     content: '';
 }
+
+.media_list_btn {
+    cursor:pointer;
+}

@@ -38,7 +38,7 @@
                     {% endif %}
 
                     <ul class="blog-info-link justify-content-end d-flex">
-                        <li>정확도 순 정렬</li>
+                        <li>청정도 순 정렬</li>
                         <div id="sort_icon">
                             <div id="sort_desc">
                                 <li><a href="#"><i class="fa fa-sort-amount-desc" aria-hidden="true">&nbsp;내림차순</i></a></li>
@@ -62,7 +62,7 @@
                                 <h3>{{ tmp.result_newtitle }}</h3>
                             </a>
                             <p>{{ tmp.article_title }}</p>
-                            <p style="margin-bottom: -25px;"><span style="font-size: 14px; font-weight: bold;"><a {% if tmp.media_url != '' %} href="{{ tmp.media_url }}"  target="_blank" {% else %} href="#" {% endif %}>{{ tmp.article_media }}</a></span><span style="font-size: 12px; margin-left: 10px;">{{ tmp.article_category }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ tmp.article_date }}</span><span style="font-size: small; font-weight: bold; {% if tmp.result_acc < 50 %} color: red;{% elif tmp.result_acc >= 50 and tmp.result_acc < 80 %} color: orange; {% elif tmp.result_acc >= 80 and tmp.result_acc <= 100 %} color: limegreen; {% else %} color: lightgray; {% endif %}">&nbsp;&nbsp;&nbsp;정확도 : {% if tmp.result_acc != '' %}{{ tmp.result_acc|floatformat }}%{% else %}없음{% endif %}</span></p>
+                            <p style="margin-bottom: -25px;"><span style="font-size: 14px; font-weight: bold;"><a {% if tmp.media_url != '' %} href="{{ tmp.media_url }}"  target="_blank" {% else %} href="#" {% endif %}>{{ tmp.article_media }}</a></span><span style="font-size: 12px; margin-left: 10px;">{{ tmp.article_category }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ tmp.article_date }}</span><span style="font-size: small; font-weight: bold; {% if tmp.result_acc < 50 %} color: red;{% elif tmp.result_acc >= 50 and tmp.result_acc < 80 %} color: orange; {% elif tmp.result_acc >= 80 and tmp.result_acc <= 100 %} color: limegreen; {% else %} color: lightgray; {% endif %}">&nbsp;&nbsp;&nbsp;청정도 : {% if tmp.result_acc != '' %}{{ tmp.result_acc|floatformat }}%{% else %}없음{% endif %}</span></p>
                             <ul class="blog-info-link justify-content-end d-flex">
                                 <li><a href="{{ tmp.article_url }}" target="_blank"><i class="fa fa-file-text-o"></i>원문 보기</a></li>
                                 <li><a href="/article_analysis?article_id={{ tmp.article_id }}"><i class="fa fa-bar-chart"></i>분석 보기</a></li>
@@ -203,16 +203,16 @@
             }
             if(item.result_acc < 50){
                 thisnode.find("p span").eq(2).attr('style','font-size: small; font-weight: bold;color:red;')
-                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;정확도 : " + acc +"%" );
+                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;청정도 : " + acc +"%" );
             }else if( item.result_acc >= 50 && item.result_acc < 80 ){
                 thisnode.find("p span").eq(2).attr('style','font-size: small; font-weight: bold;color:orange;')
-                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;정확도 : " + acc +"%" );
+                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;청정도 : " + acc +"%" );
             }else if( item.result_acc >= 80 ){
                 thisnode.find("p span").eq(2).attr('style','font-size: small; font-weight: bold;color:limegreen ;')
-                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;정확도 : " + acc +"%" );
+                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;청정도 : " + acc +"%" );
             }else{
                 thisnode.find("p span").eq(2).attr('style','font-size: small; font-weight: bold;color:lightgray ;')
-                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;정확도 : " + acc );
+                thisnode.find("p span").eq(2).html("&nbsp;&nbsp;청정도 : " + acc );
             }
             thisnode.children("a").attr('href', item.article_url)                                // 제목에 달린 url
             thisnode.children(".d-inline-block").children('h3').html(item.result_newtitle)       // 우리 제목
