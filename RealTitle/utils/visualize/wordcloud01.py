@@ -85,6 +85,7 @@ def clean_text(text, remove_stopwords = False):
     text = re.sub(r'<br />', ' ', text)
     text = re.sub(r'\'', ' ', text)
     text = re.sub(r'［[a-zA-Z가-힣]*］', ' ', text)
+    text = re.sub(' +', ' ', text)
     return text
 
 def generate_wordCloud(text, font_path, extractNum = 15):

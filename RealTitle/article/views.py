@@ -9,7 +9,7 @@ from .Aritcle_Serializers import ArticleSerializer
 import json
 from .models import Article
 from utils.oracleDB import get_data, pagination
-from utils.visualize import wordcloud01
+from utils.visualize import wordcloud01, keyword
 import os
 import pickle
 import time
@@ -104,7 +104,9 @@ def article_analysis(request):
         # print(content)
         wc, bar, count = wordcloud01.generate_wordCloud(content, wordcloud01.setFontPath())
         # print("count >",count)
-        return render(request, 'article_analysis.html', { "wordcloud":wc, "barchart":bar,"count":count, "article_url":url })
+        tr_object = keyword.tr(content)
+        nx_uri = keyword.draw_keyword(tr_object)
+        return render(request, 'article_analysis.html', { "wordcloud":wc, "barchart":bar,"count":count, "article_url":url, "networkx":nx_uri })
     
 
 
@@ -114,10 +116,12 @@ def aritcle_keyword_visualization(request): # 키워드 시각화 페이지
         return render(request, 'aritcle_keyword_visualization.html')
     elif request.is_ajax():
         # print('POST key 값 >', request.POST)
-        contents = request.POST['article_content']
+        content = request.POST['article_content']
         # print('받은 텍스트 >', contents)
-        wcURI, barURI, count = wordcloud01.generate_wordCloud( contents, wordcloud01.setFontPath() )
-        return HttpResponse(json.dumps({"wordcloudURI":wcURI, "barURI":barURI, "wordCount":count}), "application/json")
+        wcURI, barURI, count = wordcloud01.generate_wordCloud( content, wordcloud01.setFontPath() )
+        tr_object = keyword.tr(content)
+        nx_uri = keyword.draw_keyword(tr_object)
+        return HttpResponse(json.dumps({"wordcloudURI":wcURI, "barURI":barURI, "wordCount":count, "networkx":nx_uri}), "application/json")
 
 @csrf_exempt
 def article_chart(request):
