@@ -38,7 +38,7 @@
                 </div>
                 <h3># 키워드 트렌드</h3>
             </div>
-            <div style="width: 600px; height: 400px;">
+            <div style="width: 70%;">
                 <canvas id="myChart" width="600px" height="400px"></canvas>
             </div>
         </div>
@@ -75,6 +75,15 @@ $('#search_btn').click(function() {
             new Chart(ctx, {
                 type: 'line',
                 data: data,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
             });
         },
         beforeSend:function(){
