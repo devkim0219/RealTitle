@@ -164,7 +164,6 @@ def getKeywordsPerCategory():
 def keywordTrend(keyword, start_date, end_date):
     # dataset = Article.objects.filter(article_title__icontains=keyword)
     queryset = Article.objects.values('article_id', 'article_date').filter(article_title__icontains=keyword, article_date__gte=start_date, article_date__lte=end_date)
-
     df = pd.DataFrame.from_records(queryset)
 
     df['timestamp'] = pd.to_datetime(df["article_date"],format='%Y%m%d', errors='ignore')
@@ -216,4 +215,29 @@ def mediaAnalysis(media_name=''):
         }]
     }
 
+    return data
+
+def test_mediaAnalysis(media_name=''):
+    # print(media_name)
+    queryset = Article.objects.values('article_category').filter(article_media = media_name)
+    # print("queryset.count > ",queryset.count())
+
+    # categories = queryset.values('article_category').distinct().values_list('article_category', flat=True)
+    categories = Category.objects.values_list('category_name', flat=True)
+    # categories = ['IT과학', '경제', '사회', '생활문화', '세계', '오피니언', '정치']
+    
+    values = [ (queryset.filter(article_category = category).count()) for category in categories ]
+
+    data = {
+        'labels': list(categories),
+        # 'labels': categories,
+        'datasets': [{
+            'label': media_name,
+            'data': values,
+            'backgroundColor': 'rgba(255, 99, 132, 0.2)',
+            'borderColor': 'rgba(255, 99, 132, 1)',
+            'borderWidth': 1,
+            'fill': True
+        }]
+    }
     return data

@@ -145,6 +145,7 @@ def article_media_analysis(request):
     elif request.method == 'POST':
         media_name = request.POST.get('media_name', '')
 
-        data = get_data.mediaAnalysis(media_name=media_name)
+        # data = get_data.mediaAnalysis(media_name=media_name)
+        data = get_data.test_mediaAnalysis(media_name=media_name)
 
         return HttpResponse(json.dumps(data), 'application/json')

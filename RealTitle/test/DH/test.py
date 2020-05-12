@@ -48,8 +48,20 @@ def test_sort(request):
     return render(request, 'test_sort.html',{"data":data})
 
 
-
-
+########################## 언론성향분석, 속도개선 #########
+# https://docs.djangoproject.com/en/3.0/ref/models/querysets/
+# https://simpleisbetterthancomplex.com/tutorial/2016/12/06/how-to-create-group-by-queries.html
+def test_queryset(request):
+    media = '연합뉴스'
+    queryset = Article.objects.values('article_category').filter(article_media = media)
+    categories = queryset.values('article_category').distinct().values_list('article_category', flat=True)
+    # print("queryset.count > ",queryset.count())
+    # print("queryset.distinct", category)
+    # print("queryset.agg.IT과학", queryset.filter(article_category = 'IT과학').count())
+    data = [ (queryset.filter(article_category = category).count()) for category in categories ]
+    # print(categories)
+    # print(data)
+    return HttpResponse('test')
 
 
 
@@ -98,3 +110,21 @@ def test_frequency(request):
     # print(keyword.nouns_frequency(titles))
     # return HttpResponse("blog-index")
     return HttpResponse(keywords)
+
+
+    ############################ 달력 테스트 및 관련.
+
+    def test_clob(request):
+    search_keyword = '코로나'
+    queryset = Article.objects.values('article_content').filter(article_content__icontains=search_keyword)
+    # searchquery = queryset.filter(article_content__icontains=search_keyword)
+    # searchquery = queryset.filter(article_content__icontains=search_keyword) | queryset.filter(article_title__icontains=search_keyword)
+    # print(searchquery)
+    #_text__search=
+    # queryset = Article.objects.values('article_content').filter(article_content__search=search_keyword)
+    # queryset = Article.objects.values('article_content').filter(article_content__contains=search_keyword)
+    # print(queryset)
+    return HttpResponse("index")
+
+def test_datetime(request):
+    return render(request, 'test_datetimepicker.html')
