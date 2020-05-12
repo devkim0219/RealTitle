@@ -161,9 +161,11 @@ def getKeywordsPerCategory():
     return keywords
 
 # 상세 기사 검색
-def keywordTrend(keyword, start_date, end_date):
+def keywordTrend(keyword1, keyword2, start_date, end_date):
     # dataset = Article.objects.filter(article_title__icontains=keyword)
-    queryset = Article.objects.values('article_id', 'article_date').filter(article_title__icontains=keyword, article_date__gte=start_date, article_date__lte=end_date)
+    queryset = Article.objects.values('article_id', 'article_date').filter(article_title__icontains=keyword1, article_date__gte=start_date, article_date__lte=end_date)
+    queryset2 = Article.objects.values('article_id', 'article_date').filter(article_title__icontains=keyword2, article_date__gte=start_date, article_date__lte=end_date)
+    
     df = pd.DataFrame.from_records(queryset)
 
     df['timestamp'] = pd.to_datetime(df["article_date"],format='%Y%m%d', errors='ignore')
@@ -172,9 +174,17 @@ def keywordTrend(keyword, start_date, end_date):
     df['day'] = df["timestamp"].dt.day
 
     result_df = df[['article_id', 'day', 'month', 'year']]
-
     month_count_df = result_df.groupby('month').count()
 
+    df2 = pd.DataFrame.from_records(queryset2)
+
+    df2['timestamp'] = pd.to_datetime(df2["article_date"],format='%Y%m%d', errors='ignore')
+    df2['year'] = df2["timestamp"].dt.year
+    df2['month'] = df2["timestamp"].dt.month
+    df2['day'] = df2["timestamp"].dt.day
+
+    result_df2 = df2[['article_id', 'day', 'month', 'year']]
+    month_count_df2 = result_df2.groupby('month').count()
 
     # convert_date = datetime.strftime(date, "%Y-%m-%d").date()
     # day = convert_date['day']
@@ -184,10 +194,19 @@ def keywordTrend(keyword, start_date, end_date):
     data = {
         'labels': month_count_df.index.to_list(),
         'datasets': [{
-            'label': keyword,
+            'label': keyword1,
             'data': month_count_df['article_id'].tolist(),
             'backgroundColor': 'rgba(255, 99, 132, 0.2)',
             'borderColor': 'rgba(255, 99, 132, 1)',
+            'borderWidth': 1,
+            'fill': False,
+            'pointRadius': 5
+        },
+        {
+            'label': keyword2,
+            'data': month_count_df2['article_id'].tolist(),
+            'backgroundColor': 'rgba(54, 162, 235, 0.2)',
+            'borderColor': 'rgba(54, 162, 235, 1)',
             'borderWidth': 1,
             'fill': False,
             'pointRadius': 5
@@ -196,13 +215,19 @@ def keywordTrend(keyword, start_date, end_date):
 
     return data
 
-def mediaAnalysis(media_name=''):
+def mediaAnalysis(media_name='',media_name2=''):
     queryset = Article.objects.values('article_id', 'article_category').filter(article_media = media_name)
     category_q = Category.objects.values('category_name')
     df = pd.DataFrame.from_records(queryset)
     category_df = pd.DataFrame.from_records(category_q)
     media_count_df = df.groupby(['article_category']).count()
 
+    queryset2 = Article.objects.values('article_id', 'article_category').filter(article_media = media_name2)
+    category_q2 = Category.objects.values('category_name')
+    df2 = pd.DataFrame.from_records(queryset2)
+    category_df = pd.DataFrame.from_records(category_q2)
+    media_count_df2 = df2.groupby(['article_category']).count()
+    
     data = {
         'labels': category_df['category_name'].tolist(),
         'datasets': [{
@@ -212,21 +237,38 @@ def mediaAnalysis(media_name=''):
             'borderColor': 'rgba(255, 99, 132, 1)',
             'borderWidth': 1,
             'fill': True
+        },
+        {
+            'label': media_name2,
+            'data': media_count_df2['article_id'].tolist(),
+            'backgroundColor': 'rgba(54, 162, 235, 0.2)',
+            'borderColor': 'rgba(54, 162, 235, 1)',
+            'borderWidth': 1,
+            'fill': True
         }]
+
     }
 
     return data
 
-def test_mediaAnalysis(media_name=''):
+
+
+def test_mediaAnalysis(media_name='',media_name2=''):
     # print(media_name)
     queryset = Article.objects.values('article_category').filter(article_media = media_name)
+    queryset2 = Article.objects.values('article_category').filter(article_media = media_name2)
     # print("queryset.count > ",queryset.count())
 
     # categories = queryset.values('article_category').distinct().values_list('article_category', flat=True)
     categories = Category.objects.values_list('category_name', flat=True)
     # categories = ['IT과학', '경제', '사회', '생활문화', '세계', '오피니언', '정치']
     
-    values = [ (queryset.filter(article_category = category).count()) for category in categories ]
+    values = [ (queryset.filter(article_media= media_name).filter(article_category = category).count()) for category in categories ]
+    #df2 = pd.DataFrame.from_records(queryset2)
+    # category_df = pd.DataFrame.from_records(category_q2)
+    # media_count_df2 = df2.groupby(['article_category']).count()
+    values2 = [ (queryset2.filter(article_media= media_name2).filter(article_category = category).count()) for category in categories ]
+
 
     data = {
         'labels': list(categories),
@@ -238,6 +280,15 @@ def test_mediaAnalysis(media_name=''):
             'borderColor': 'rgba(255, 99, 132, 1)',
             'borderWidth': 1,
             'fill': True
-        }]
+        },
+            {
+            'label': media_name2,
+            'data': values2,
+            # 'data': media_count_df2['article_id'].tolist(),
+            'backgroundColor': 'rgba(54, 162, 235, 0.2)',
+            'borderColor': 'rgba(54, 162, 235, 1)',
+            'borderWidth': 1,
+            'fill': True
+        }]    
     }
     return data

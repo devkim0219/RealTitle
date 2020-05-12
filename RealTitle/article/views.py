@@ -128,10 +128,11 @@ def article_keyword_trend(request):
 
     elif request.method == 'POST':
         search_keyword = request.POST.get('search_keyword', '')
+        search_keyword2 = request.POST.get('search_keyword2', '')
         start_date = request.POST.get('start_date', 0)
         end_date = request.POST.get('end_date', 99999999)
 
-        data = get_data.keywordTrend(search_keyword, start_date, end_date)
+        data = get_data.keywordTrend(search_keyword, search_keyword2, start_date, end_date)
 
         return HttpResponse(json.dumps(data), 'application/json')
 
@@ -139,13 +140,12 @@ def article_keyword_trend(request):
 def article_media_analysis(request):
     if request.method == 'GET':
         media_list = get_data.getMediaList(order_type='media_name')
-
         return render(request, 'article_media_analysis.html', {'media_list': media_list})
 
     elif request.method == 'POST':
         media_name = request.POST.get('media_name', '')
-
+        media_name2 = request.POST.get('media_name2', '')
         # data = get_data.mediaAnalysis(media_name=media_name)
-        data = get_data.test_mediaAnalysis(media_name=media_name)
+        data = get_data.test_mediaAnalysis(media_name=media_name,media_name2=media_name2)
 
         return HttpResponse(json.dumps(data), 'application/json')

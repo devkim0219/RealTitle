@@ -37,9 +37,10 @@
                         <input type="text" class="form-control" id="search_keyword" placeholder='키워드를 입력하세요.' onfocus="this.placeholder = ''" onblur="this.placeholder = '키워드를 입력하세요.'">
                     </div>
                     <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="search_keyword2" placeholder=' 키워드를 입력하세요.' onfocus="this.placeholder = ''" onblur="this.placeholder = '키워드를 입력하세요.'">
+                    </div>
                         <!-- <input type="text" class="form-control" id="start_date" placeholder='시작 날짜를 입력하세요. ex)20200508' onfocus="this.placeholder = ''" onblur="this.placeholder = '시작 날짜를 입력하세요. ex)20200508'"> -->
                         <p>StartDate: <input type="text" class="form-control" id="start_date" placeholder='시작 날짜를 입력하세요.' onfocus="this.placeholder = ''" onblur="this.placeholder = '시작 날짜를 입력하세요.'" ></p>
-                    </div>
                     <div class="input-group mb-3">
                         <!-- <input type="text" class="form-control" id="end_date" placeholder='종료 날짜를 입력하세요. ex)20200508' onfocus="this.placeholder = ''" onblur="this.placeholder = '종료 날짜를 입력하세요. ex)20200508'">     -->
                         <p>EndDate: <input type="text" class="form-control" id="end_date" placeholder='종료 날짜를 입력하세요.' onfocus="this.placeholder = ''" onblur="this.placeholder = '종료 날짜를 입력하세요.'" ></p>
@@ -48,7 +49,6 @@
                         <button id ="search_btn" class="btn" type="button"><i class="ti-search">&nbsp;검색</i></button>
                     </div>    
                 </div>
-                
             </div>
             <div style="width: 100%;">
                 <canvas id="myChart"></canvas>
@@ -91,14 +91,19 @@ $( function() {
 
 $('#search_btn').click(function() {
     var search_keyword = $('#search_keyword').val()
-    var start_date = $('#start_date').val().split("-").join('')
-    var end_date = $('#end_date').val().split("-").join('')
+    var search_keyword2 = $('#search_keyword2').val()
+    var start_date = $('#start_date').val()
+    var end_date = $('#end_date').val()
+
+    // var start_date = $('#start_date').val().split("-").join('')
+    // var end_date = $('#end_date').val() .split("-").join('')
 
     $.ajax({
         type: 'POST',
         url: "{% url 'article_keyword_trend' %}",
         data: {
             search_keyword: search_keyword,
+            search_keyword2: search_keyword2,
             start_date: start_date,
             end_date: end_date
             // 'csrfmiddlewaretoken': '{{ csrf_token }}'

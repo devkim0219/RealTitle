@@ -35,7 +35,28 @@
                             </select>
                             <div class="nice-select" tabindex="0">
                                 <span class="current">언론사 선택</span>
-                                <ul class="list" style="max-height: 200px; overflow:auto;">
+                                <ul class="list mylist" style="max-height: 200px; overflow:auto;">
+                                    {% for media in media_list %}
+                                        <li data-value="{{ media.media_name }}" class="option">{{ media.media_name }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <div class="single-element-widget">
+                        <div class="default-select mb-20" id="default-select">
+                            <select id="media_list2" style="display: none;">
+                                {% for media in media_list %}
+                                    <option value="{{ media.media_name }}">{{ media.media_name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="nice-select" tabindex="0">
+                                <span class="current">언론사 선택</span>
+                                <ul class="list mylist2" style="max-height: 200px; overflow:auto;">
                                     {% for media in media_list %}
                                         <li data-value="{{ media.media_name }}" class="option">{{ media.media_name }}</li>
                                     {% endfor %}
@@ -63,13 +84,14 @@
 {% block script %}
 <script type="text/javascript">
     $('#analysis_btn').click(function() {
-        var media_name = $(".selected").text()
-
+        var media_name = $(".mylist .selected").text()
+        var media_name2 = $(".mylist2 .selected").text()
         $.ajax({
             type: 'POST',
             url: "{% url 'article_media_analysis' %}",
             data: {
-                media_name: media_name
+                media_name: media_name,
+                media_name2: media_name2
                 // 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
